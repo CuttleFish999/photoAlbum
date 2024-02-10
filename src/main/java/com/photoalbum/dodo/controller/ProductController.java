@@ -1,42 +1,34 @@
 package com.photoalbum.dodo.controller;
 
-
-
 import com.photoalbum.dodo.model.Product;
-import com.photoalbum.dodo.dao.ProductRepository;
+import com.photoalbum.dodo.service.Impl.ProductServiceImpl;
+import com.photoalbum.dodo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//@RestController
 @Controller
+@RequestMapping("/Products")
 public class ProductController {
 
+    private final ProductServiceImpl productService;
+
     @Autowired
-    private ProductRepository productRepository;
-
-    //  SpringJPA
-    @PostMapping("/InsertProducts")
-    public Integer insertProduct(@RequestBody Product product) {
-
-        productRepository.save(product);
-        return product.getProid();
+    public ProductController(ProductService productService) {
+        this.productService = (ProductServiceImpl) productService;
     }
 
-    @GetMapping("/Products")
-    public String insertProduct(Model model) {
-        System.out.println("qq");
-        List<Product> productList = new ArrayList<>();
-        productRepository.findAll().forEach(productList::add);
-        model.addAttribute("products", productList);
-
+    @GetMapping("")
+    public String listProducts(Model model) {
+        model.addAttribute("products", productService.getAllProduct());
         return "index";
     }
-}
 
+    @PostMapping("/insertProducts")
+    @ResponseBody
+    public Integer insertProduct(@RequestBody Product product) {
+        Product savedProduct = productService.saveProduct(product);
+        return savedProduct.getProid();
+    }
+}
