@@ -1,5 +1,6 @@
-package com.photoalbum.dodo;
+package com.photoalbum.dodo.dao;
 
+import com.photoalbum.dodo.model.Product;
 import org.springframework.data.repository.CrudRepository;
 
 

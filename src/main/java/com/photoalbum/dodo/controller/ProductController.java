@@ -1,14 +1,15 @@
-package com.photoalbum.dodo;
+package com.photoalbum.dodo.controller;
 
 
 
+import com.photoalbum.dodo.model.Product;
+import com.photoalbum.dodo.dao.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +33,10 @@ public class ProductController {
     public String insertProduct(Model model) {
         System.out.println("qq");
         List<Product> productList = new ArrayList<>();
-//        System.out.println(productList.get(0).getProid());
         productRepository.findAll().forEach(productList::add);
         model.addAttribute("products", productList);
 
         return "index";
     }
-
-//    @GetMapping("/test")
-//    @ResponseBody
-//    public String test23() {
-//        System.out.println("qq");
-//        return "Hello, this is a test."; // 这将直接返回字符串，而不是视图名称
-//    }
-
 }
 
