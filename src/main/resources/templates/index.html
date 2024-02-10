@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+
+    <style>
+
+
+    </style>
+
+</head>
+<body>
+<h1>首頁</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.proid}">1</td>
+        <td th:text="${product.proname}">Product Name</td>
+        <td th:text="${product.procategory}">Category</td>
+        <td th:text="${product.proprice}">Price</td>
+        <td th:text="${product.prostock}">Stock</td>
+        <td th:text="${product.prodescription}">Description</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
