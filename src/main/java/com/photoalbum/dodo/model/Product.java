@@ -1,4 +1,4 @@
-package com.photoalbum.dodo;
+package com.photoalbum.dodo.model;
 
 import jakarta.persistence.*;
 
