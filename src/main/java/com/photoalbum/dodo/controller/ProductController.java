@@ -45,21 +45,8 @@ public class ProductController {
                                  @RequestBody Product product) {
 
         System.out.println("insertProductId: " + product);
+        Integer updateId =  productServiceImpl.updataProduct(product).getProid();
 
-        Product productList = productServiceImpl.findProductById(productId);
-
-        if(productList == null){
-            Product savedProduct = productServiceImpl.saveProduct(product);
-            return savedProduct.getProid();
-        }else{
-            productList.setProname(product.getProname());
-
-
-            Product updatedProduct = productServiceImpl.saveProduct(productList);
-
-
-            System.out.println(productId + " 这个ID的产品信息已经更新了！");
-            return updatedProduct.getProid();
-        }
+        return updateId;
     }
 }

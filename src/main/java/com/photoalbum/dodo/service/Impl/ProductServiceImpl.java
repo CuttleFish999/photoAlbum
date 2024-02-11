@@ -38,5 +38,47 @@ public class ProductServiceImpl implements ProductService {
         return product.get();
     }
 
+    @Override
+    public Product updataProduct(Product product) {
+        Integer productId = product.getProid();
+        Optional<Product> findProduct = productRepository.findById(productId);
+
+        if(findProduct.isPresent()){
+
+            findProduct.get().setProname(product.getProname());
+
+
+            Product updataProduct = productRepository.save(findProduct.get());
+
+            System.out.println("更新成功");
+            return updataProduct;
+
+        }else{
+
+            Product savedProduct = productRepository.save(findProduct.get());
+
+            System.out.println("新增成功");
+            return savedProduct;
+
+        }
+
+//        if(productList == null){
+//            Product savedProduct = productServiceImpl.saveProduct(product);
+//            return savedProduct.getProid();
+//        }else{
+//
+//            productServiceImpl.updataProduct(product);
+//
+//
+//            return updatedProduct.getProid();
+//        }
+//
+//
+//        product.setProname(product.getProname());
+//        Product updatedProduct = productServiceImpl.saveProduct(productList);
+//        System.out.println(productId + " 这个ID的产品信息已经更新了！");
+//        return null;
+    }
+
 
 }
