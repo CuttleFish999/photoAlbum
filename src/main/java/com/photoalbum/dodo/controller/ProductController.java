@@ -44,16 +44,22 @@ public class ProductController {
     public Integer insertProduct(@PathVariable Integer productId ,
                                  @RequestBody Product product) {
 
-        System.out.println("insertProductId: " + productId);
+        System.out.println("insertProductId: " + product);
 
         Product productList = productServiceImpl.findProductById(productId);
 
-        if(productList != null){
+        if(productList == null){
             Product savedProduct = productServiceImpl.saveProduct(product);
             return savedProduct.getProid();
         }else{
-            System.out.println( productId + "這著ID已經有囉!");
-            return null;
+            productList.setProname(product.getProname());
+
+
+            Product updatedProduct = productServiceImpl.saveProduct(productList);
+
+
+            System.out.println(productId + " 这个ID的产品信息已经更新了！");
+            return updatedProduct.getProid();
         }
     }
 }
