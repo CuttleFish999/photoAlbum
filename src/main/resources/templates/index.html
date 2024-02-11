@@ -32,10 +32,9 @@
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
-        <td th:text="${product.proid}">1</td>
-        <td th:text="${product.proname}">Product Name</td>
-        <td th:text="${product.procategory}">Category</td>
-
+        <td class="productId" th:text="${product.proid}">1</td>
+        <td class="productName" th:text="${product.proname}">Product Name</td>
+        <td class="productCategory" th:text="${product.procategory}">Category</td>
         <td>
             <!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
             <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"
@@ -43,9 +42,9 @@
         </td>
 
 
-        <td th:text="${product.proprice}">Price</td>
-        <td th:text="${product.prostock}">Stock</td>
-        <td th:text="${product.prodescription}">Description</td>
+        <td class="productPrice" th:text="${product.proprice}">Price</td>
+        <td class="productStock" th:text="${product.prostock}">Stock</td>
+        <td class="productDescription" th:text="${product.prodescription}">Description</td>
         <td>
             <button class="productModify-Btn" type="button" th:data-product-id="${product.proid}">修改</button>
         </td>
@@ -58,20 +57,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-
+        let ProductObjcet = {};
 
         const modifyButtons = document.querySelectorAll('.productModify-Btn');
         for (let i = 0; i < modifyButtons.length; i++) {
             modifyButtons[i].addEventListener("click", function () {
                 const productId = this.getAttribute("data-product-id");
-                alert(`點擊的productID: ${productId}`);
-                ModifyProductEvent_Ajax(productId);
+                // alert(`點擊的productID: ${productId}`);
+                ProductObjcet = PackJsonObjcet();
+                alert(ProductObjcet.id);
+                // ModifyProductEvent_Ajax(productId);
 
             })
         }
     });
 
+    function PackJsonObjcet(){
+
+        const ID = document.querySelector(".productId").innerText;
+        const Name = document.querySelector(".productName").innerText;
+        const Category = document.querySelector(".productCategory").innerText;
+        const productPrice = document.querySelector(".productPrice").innerText;
+        const productStock = document.querySelector(".productStock").innerText;
+        const productDescription = document.querySelector(".productDescription").innerText;
+
+        ProductObjcet = {
+            id: ID,
+            name: Name,
+            category: Category,
+            price: parseFloat(productPrice),
+            stock: parseInt(productStock, 10),
+            description: productDescription
+        }
+
+        return ProductObjcet;
+    }
+
     function ModifyProductEvent_Ajax(productId) {
+
+
+
         $.ajax({
             url: '/insert/' + productId,
             type: 'POST',

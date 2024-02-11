@@ -43,7 +43,9 @@ public class ProductController {
     @ResponseBody
     public Integer insertProduct(@PathVariable Integer productId ,
                                  @RequestBody Product product) {
-//        productId
+
+        System.out.println("insertProductId: " + productId);
+
         Product productList = productServiceImpl.findProductById(productId);
 
         if(productList != null){
