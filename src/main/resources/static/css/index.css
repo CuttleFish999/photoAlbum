@@ -44,6 +44,11 @@ thead tr {
     color: white;
 }
 
+.productModify-Btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* 修改 */
 
 .modify-input{

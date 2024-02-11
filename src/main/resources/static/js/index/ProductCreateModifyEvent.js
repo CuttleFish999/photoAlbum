@@ -97,14 +97,14 @@ function UPDataButtonsEvent() {
     const productRow = this.closest('tr');
     const tds = productRow.querySelectorAll('td');
     tds.forEach((td, index) => {
-
-        if (index < tds.length - 2) {
+        if (index < tds.length - 1 && !td.querySelector('.product-img')) {
             const text = td.innerText;
             td.innerText = '';
             const input = document.createElement('input');
             input.className = "modify-input";
             input.value = text;
             td.appendChild(input);
+
         }
     });
 }
