@@ -60,6 +60,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+        const fileInput = document.getElementById('hiddenFileInput');
+
+        document.querySelectorAll('.product-img-change-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productRow = this.closest('tr'); // 获取当前行，以便后面可以找到对应的图片元素
+                fileInput.onchange = function() { // 每次点击时重新绑定事件处理器
+                    const file = fileInput.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const base64Image = e.target.result;
+                            productRow.querySelector('.product-img').src = base64Image; // 确保找到并更新了正确的图片元素
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                fileInput.click(); // 触发文件输入
+            });
+        });
+
+
+
+
         let ProductObjcet = {};
 
         const modifyButtons = document.querySelectorAll('.productModify-Btn');
