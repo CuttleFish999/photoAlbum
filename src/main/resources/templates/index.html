@@ -66,7 +66,7 @@
                 // alert(`點擊的productID: ${productId}`);
                 ProductObjcet = PackJsonObjcet();
                 alert(ProductObjcet.id);
-                // ModifyProductEvent_Ajax(productId);
+                ModifyProductEvent_Ajax(ProductObjcet);
 
             })
         }
@@ -93,15 +93,13 @@
         return ProductObjcet;
     }
 
-    function ModifyProductEvent_Ajax(productId) {
-
-
+    function ModifyProductEvent_Ajax(ProductObjcet) {
 
         $.ajax({
-            url: '/insert/' + productId,
+            url: '/insert/' + ProductObjcet.id,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(product), // Convert the product object to a JSON string
+            data: JSON.stringify(ProductObjcet), // Convert the product object to a JSON string
             dataType: 'json',
             success: function(response) {
                 // The request was successful and you can use 'response' which is returned from the server
