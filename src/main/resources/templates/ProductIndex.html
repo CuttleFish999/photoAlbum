@@ -46,7 +46,9 @@
         <td class="productStock" th:text="${product.prostock}">Stock</td>
         <td class="productDescription" th:text="${product.prodescription}">Description</td>
         <td>
-            <button class="productModify-Btn" ONCLICK="" type="button" th:data-product-id="${product.proid}">修改</button>
+            <button class="productModify-Btn" ONCLICK="" type="button" th:data-product-id="${product.proid}">存檔</button>
+            <button class="productModify-Btn-UPData" ONCLICK="" type="button" th:data-product-id="${product.proid}">修改</button>
+<!--            <button class="productModify-Btn-Canel" ONCLICK="" type="button" th:data-product-id="${product.proid}">取消</button>-->
         </td>
 
     </tr>

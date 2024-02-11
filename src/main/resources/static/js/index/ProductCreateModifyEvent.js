@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const fileInput = document.getElementById('hiddenFileInput');
     const modifyButtons = document.querySelectorAll('.productModify-Btn');
+    const UPDataButtons = document.querySelectorAll('.productModify-Btn-UPData');
     let CangeButton = null;
 
     document.querySelectorAll('.product-img-change-btn').forEach(button => {
@@ -38,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             ModifyProductEvent_Ajax(ProductObjcet);
+
+            alert(ProductObjcet.proid + " 更新成功");
         });
     });
 });
