@@ -49,7 +49,6 @@ public class ProductServiceImpl implements ProductService {
 
             findProduct.get().setProname(product.getProname());
 
-
             Product updataProduct = productRepository.save(findProduct.get());
 
             System.out.println("更新成功");

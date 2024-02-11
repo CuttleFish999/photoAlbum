@@ -38,11 +38,10 @@ public class ProductController {
         return "index";
     }
 
-//  單筆新增
+//  單筆新增&修改
     @PostMapping("/insert/{productId}")
     @ResponseBody
-    public Integer insertProduct(@PathVariable Integer productId ,
-                                 @RequestBody Product product) {
+    public Integer insertProduct(@RequestBody Product product) {
 
         Integer updateId =  productServiceImpl.updataProduct(product).getProid();
 
