@@ -41,12 +41,17 @@ public class ProductController {
 //  單筆新增
     @PostMapping("/insert/{productId}")
     @ResponseBody
-    public Integer insertProduct(@PathVariable Product productId ,
+    public Integer insertProduct(@PathVariable Integer productId ,
                                  @RequestBody Product product) {
 //        productId
-//        List<Product> productList = productServiceImpl
+        Product productList = productServiceImpl.findProductById(productId);
 
-        Product savedProduct = productServiceImpl.saveProduct(product);
-        return savedProduct.getProid();
+        if(productList != null){
+            Product savedProduct = productServiceImpl.saveProduct(product);
+            return savedProduct.getProid();
+        }else{
+            System.out.println( productId + "這著ID已經有囉!");
+            return null;
+        }
     }
 }
