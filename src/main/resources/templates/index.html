@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
 
     <style>
-        .product-img{
+        .product-img {
             width: 100px;
 
         }
@@ -37,36 +37,40 @@
         <td th:text="${product.procategory}">Category</td>
 
         <td>
-<!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
-            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}" alt="產品圖片"/>
+            <!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
+            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"
+                 alt="產品圖片"/>
         </td>
 
 
-    <td th:text="${product.proprice}">Price</td>
+        <td th:text="${product.proprice}">Price</td>
         <td th:text="${product.prostock}">Stock</td>
         <td th:text="${product.prodescription}">Description</td>
         <td>
-            <button class="productModify-Btn" type="button" th:onclick="productModifyEvent(this)">修改</button>
+            <button class="productModify-Btn" type="button" th:data-product-id="${product.proid}">修改</button>
         </td>
+
     </tr>
 
 
     </tbody>
 </table>
 
-    <script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-        document.addEventlistener("DOMContentLoaded" , function(){
 
-        })
+        const modifyButtons = document.querySelectorAll('.productModify-Btn');
+        for(let i = 0 ; i < modifyButtons.length ; i++){
+            modifyButtons[i].addEventListener("click" , function(){
+                const productId = this.getAttribute("data-product-id");
+                // alert(`點擊的productID: ${productId}`);
 
-        function productModifyEvent(){
-            const productModify_BtnList = document.querySelectorAll(".productModify-Btn");
-
-            for(let i = 0 ; i < productModify_BtnList.length ; i++){
-                productModify_BtnList[i].
-            }
+            })
         }
-    </script>
+    });
+
+</script>
+
 </body>
 </html>

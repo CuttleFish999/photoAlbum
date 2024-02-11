@@ -17,12 +17,10 @@ import java.util.Map;
 @RequestMapping("/Products")
 public class ProductController {
 
-//    private final ProductServiceImpl productService;
-
     @Autowired
     private ProductServiceImpl productServiceImpl;
 
-
+//  查詢所有
     @GetMapping("/")
     public String listProducts(Model model) {
         List<Product> productList = productServiceImpl.getAllProduct();
@@ -40,7 +38,7 @@ public class ProductController {
         return "index";
     }
 
-
+//  單筆新增
     @PostMapping("/insertProducts")
     @ResponseBody
     public Integer insertProduct(@RequestBody Product product) {
