@@ -43,6 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(ProductObjcet.proid + " 更新成功");
         });
     });
+
+// 修改資料事件
+    UPDataButtons.forEach(button => {
+        button.addEventListener("click", UPDataButtonsEvent);
+    });
 });
 
 function PackJsonObject(productRow){
@@ -83,6 +88,23 @@ function ModifyProductEvent_Ajax(ProductObjcet) {
         },
         error: function(xhr, status, error) {
             console.error('Error updating product:', xhr.statusText);
+        }
+    });
+}
+
+// 修改資料事件
+function UPDataButtonsEvent() {
+    const productRow = this.closest('tr');
+    const tds = productRow.querySelectorAll('td');
+    tds.forEach((td, index) => {
+
+        if (index < tds.length - 2) {
+            const text = td.innerText;
+            td.innerText = '';
+            const input = document.createElement('input');
+            input.className = "modify-input";
+            input.value = text;
+            td.appendChild(input);
         }
     });
 }

@@ -43,3 +43,10 @@ thead tr {
     border-radius: 25px;
     color: white;
 }
+
+/* 修改 */
+
+.modify-input{
+    text-align: center;
+    border-radius: 25px;
+}
