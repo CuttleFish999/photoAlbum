@@ -49,8 +49,9 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(findProduct.isPresent());
 
         if(findProduct.isPresent()){
-
+            System.out.println(product.getProimage());
             findProduct.get().setProname(product.getProname());
+            findProduct.get().setProimage(product.getProimage());
 
             Product updataProduct = productRepository.save(findProduct.get());
 
@@ -66,22 +67,6 @@ public class ProductServiceImpl implements ProductService {
 
         }
 
-//        if(productList == null){
-//            Product savedProduct = productServiceImpl.saveProduct(product);
-//            return savedProduct.getProid();
-//        }else{
-//
-//            productServiceImpl.updataProduct(product);
-//
-//
-//            return updatedProduct.getProid();
-//        }
-//
-//
-//        product.setProname(product.getProname());
-//        Product updatedProduct = productServiceImpl.saveProduct(productList);
-//        System.out.println(productId + " 这个ID的产品信息已经更新了！");
-//        return null;
     }
 
 

@@ -49,7 +49,7 @@
         <td class="productStock" th:text="${product.prostock}">Stock</td>
         <td class="productDescription" th:text="${product.prodescription}">Description</td>
         <td>
-            <button class="productModify-Btn" type="button" th:data-product-id="${product.proid}">修改</button>
+            <button class="productModify-Btn" ONCLICK="" type="button" th:data-product-id="${product.proid}">修改</button>
         </td>
 
     </tr>
@@ -62,17 +62,16 @@
     document.addEventListener("DOMContentLoaded", function () {
 
         const fileInput = document.getElementById('hiddenFileInput');
-
         document.querySelectorAll('.product-img-change-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const productRow = this.closest('tr'); // 获取当前行，以便后面可以找到对应的图片元素
-                fileInput.onchange = function() { // 每次点击时重新绑定事件处理器
+                const productRow = this.closest('tr');
+                fileInput.onchange = function() {
                     const file = fileInput.files[0];
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = function(e) {
                             const base64Image = e.target.result;
-                            productRow.querySelector('.product-img').src = base64Image; // 确保找到并更新了正确的图片元素
+                            productRow.querySelector('.product-img').src = base64Image;
                         };
                         reader.readAsDataURL(file);
                     }
@@ -81,39 +80,31 @@
             });
         });
 
-
-
-
-        let ProductObjcet = {};
-
         const modifyButtons = document.querySelectorAll('.productModify-Btn');
-        for (let i = 0; i < modifyButtons.length; i++) {
-            modifyButtons[i].addEventListener("click", function () {
-                const productId = this.getAttribute("data-product-id");
-                // alert(`點擊的productID: ${productId}`);
-                ProductObjcet = PackJsonObjcet();
-                alert(ProductObjcet.id);
+        modifyButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const productRow = this.closest('tr');
+                const ProductObjcet = PackJsonObject(productRow);
+                alert(ProductObjcet.proid);
                 ModifyProductEvent_Ajax(ProductObjcet);
-
-            })
-        }
+            });
+        });
     });
 
-    function PackJsonObjcet(){
+    function PackJsonObject(productRow){
 
-        const ID = document.querySelector(".productId").innerText;
-        const Name = document.querySelector(".productName").innerText;
-        const Category = document.querySelector(".productCategory").innerText;
+        const ID = productRow.querySelector(".productId").innerText;
+        const Name = productRow.querySelector(".productName").innerText;
+        const Category = productRow.querySelector(".productCategory").innerText;
 
-        const proImageElement = document.querySelector(".product-img");
-        const proImage = proImageElement ? proImageElement.src.replace(/^data:image\/jpeg;base64,/, "") : "";
+        let proImageElement = productRow.querySelector(".product-img");
+        let proImage = proImageElement ? proImageElement.src.replace(/^data:image\/jpeg;base64,/, "") : "";
 
+        const productPrice = productRow.querySelector(".productPrice").innerText;
+        const productStock = productRow.querySelector(".productStock").innerText;
+        const productDescription = productRow.querySelector(".productDescription").innerText;
 
-        const productPrice = document.querySelector(".productPrice").innerText;
-        const productStock = document.querySelector(".productStock").innerText;
-        const productDescription = document.querySelector(".productDescription").innerText;
-
-        ProductObjcet = {
+        const ProductObjcet = {
             proid : ID,
             proname : Name,
             procategory : Category,
@@ -127,24 +118,20 @@
     }
 
     function ModifyProductEvent_Ajax(ProductObjcet) {
-
         $.ajax({
             url: '/Products/insert/' + ProductObjcet.proid,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(ProductObjcet), // Convert the product object to a JSON string
+            data: JSON.stringify(ProductObjcet),
             dataType: 'json',
             success: function(response) {
-                // The request was successful and you can use 'response' which is returned from the server
-                console.log('Product inserted with ID:', response);
+                console.log('Product updated with ID:', response);
             },
             error: function(xhr, status, error) {
-                // The request failed. 'xhr' is the XMLHttpRequest object.
-                console.error('Error inserting product:', xhr.statusText);
+                console.error('Error updating product:', xhr.statusText);
             }
         });
     }
-
 </script>
 
 </body>
