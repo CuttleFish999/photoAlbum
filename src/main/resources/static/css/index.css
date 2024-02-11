@@ -32,3 +32,10 @@ thead tr {
     background-color: white;
     color: black;
 }
+
+.product-img-change-btn{
+    background: #ff9696;
+    border: 0px;
+    border-radius: 25px;
+    color: white;
+}
