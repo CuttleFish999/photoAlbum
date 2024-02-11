@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const fileInput = document.getElementById('hiddenFileInput');
     const modifyButtons = document.querySelectorAll('.productModify-Btn');
+    let CangeButton = null;
 
     document.querySelectorAll('.product-img-change-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -10,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const file = fileInput.files[0];
                 if (file) {
                     const reader = new FileReader();
+                    CangeButton = button;
                     button.style.background = "red";
+
                     reader.onload = function(e) {
                         const base64Image = e.target.result;
                         productRow.querySelector('.product-img').src = base64Image;
@@ -27,7 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const productRow = this.closest('tr');
             const ProductObjcet = PackJsonObject(productRow);
-            alert(ProductObjcet.proid);
+
+            // alert(ProductObjcet.proid);
+            if (CangeButton){
+                CangeButton.style.background = "";
+            }
+
+
             ModifyProductEvent_Ajax(ProductObjcet);
         });
     });
