@@ -82,12 +82,13 @@
         const productDescription = document.querySelector(".productDescription").innerText;
 
         ProductObjcet = {
-            id: ID,
-            name: Name,
-            category: Category,
-            price: parseFloat(productPrice),
-            stock: parseInt(productStock, 10),
-            description: productDescription
+            proid : ID,
+            proname : Name,
+            procategory : Category,
+            proimage : "",
+            proprice : parseFloat(productPrice),
+            prostock : parseInt(productStock, 10),
+            prodescription : productDescription
         }
 
         return ProductObjcet;
@@ -96,7 +97,7 @@
     function ModifyProductEvent_Ajax(ProductObjcet) {
 
         $.ajax({
-            url: '/insert/' + ProductObjcet.id,
+            url: '/Products/insert/' + ProductObjcet.proid,
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(ProductObjcet), // Convert the product object to a JSON string

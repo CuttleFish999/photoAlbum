@@ -40,6 +40,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updataProduct(Product product) {
+
+        System.out.println(product.getProid());
+
         Integer productId = product.getProid();
         Optional<Product> findProduct = productRepository.findById(productId);
 
