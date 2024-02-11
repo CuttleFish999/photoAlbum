@@ -43,6 +43,8 @@ public class ProductServiceImpl implements ProductService {
         Integer productId = product.getProid();
         Optional<Product> findProduct = productRepository.findById(productId);
 
+        System.out.println(findProduct.isPresent());
+
         if(findProduct.isPresent()){
 
             findProduct.get().setProname(product.getProname());
@@ -55,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 
         }else{
 
-            Product savedProduct = productRepository.save(findProduct.get());
+            Product savedProduct = productRepository.save(product);
 
             System.out.println("新增成功");
             return savedProduct;

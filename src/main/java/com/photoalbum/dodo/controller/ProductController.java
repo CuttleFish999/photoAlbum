@@ -24,10 +24,10 @@ public class ProductController {
     @GetMapping("/")
     public String listProducts(Model model) {
         List<Product> productList = productServiceImpl.getAllProduct();
-        Map<Integer, String> imageMap = new HashMap<>(); // 创建一个新的Map来存储图片数据，假设每个产品都有一个唯一的ID
+        Map<Integer, String> imageMap = new HashMap<>();
 
         for (Product product : productList) {
-            byte[] imageBytes = product.getProimage(); // 假设这是从数据库获取的图片二进制数据
+            byte[] imageBytes = product.getProimage();
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
                 imageMap.put(product.getProid(), imageBase64);
@@ -44,7 +44,6 @@ public class ProductController {
     public Integer insertProduct(@PathVariable Integer productId ,
                                  @RequestBody Product product) {
 
-        System.out.println("insertProductId: " + product);
         Integer updateId =  productServiceImpl.updataProduct(product).getProid();
 
         return updateId;
