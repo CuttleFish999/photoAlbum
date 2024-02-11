@@ -6,7 +6,10 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
 
     <style>
+        .product-img{
+            width: 100px;
 
+        }
 
     </style>
 
@@ -33,10 +36,12 @@
         <td th:text="${product.procategory}">Category</td>
 
         <td>
-            <img th:src="${product.proimage}" alt="Image">
+<!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
+            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}" alt="產品圖片"/>
         </td>
 
-        <td th:text="${product.proprice}">Price</td>
+
+    <td th:text="${product.proprice}">Price</td>
         <td th:text="${product.prostock}">Stock</td>
         <td th:text="${product.prodescription}">Description</td>
     </tr>
