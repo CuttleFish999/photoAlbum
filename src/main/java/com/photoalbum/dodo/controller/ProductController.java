@@ -2,7 +2,6 @@ package com.photoalbum.dodo.controller;
 
 import com.photoalbum.dodo.model.Product;
 import com.photoalbum.dodo.service.Impl.ProductServiceImpl;
-import com.photoalbum.dodo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +34,7 @@ public class ProductController {
         }
         model.addAttribute("products", productList);
         model.addAttribute("images", imageMap);
-        return "index";
+        return "ProductIndex";
     }
 
 //  單筆新增&修改

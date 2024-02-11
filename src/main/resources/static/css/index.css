@@ -33,6 +33,10 @@ thead tr {
     color: black;
 }
 
+.product-img {
+    width: 100px;
+}
+
 .product-img-change-btn{
     background: #ff9696;
     border: 0px;

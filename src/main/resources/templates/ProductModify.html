@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+
+    <style>
+
+
+    </style>
+
+</head>
+<body>
+<h1>產品-修改</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>圖片</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Description</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td class="productId" th:text="${product.proid}">1</td>
+        <td class="productName" th:text="${product.proname}">Product Name</td>
+        <td class="productCategory" th:text="${product.procategory}">Category</td>
+        <td>
+            <!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
+            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"
+                 alt="產品圖片"/>
+            <button class="product-img-change-btn">更換圖片</button>
+            <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">
+
+        </td>
+
+
+        <td class="productPrice" th:text="${product.proprice}">Price</td>
+        <td class="productStock" th:text="${product.prostock}">Stock</td>
+        <td class="productDescription" th:text="${product.prodescription}">Description</td>
+        <td>
+            <button class="productModify-Btn" ONCLICK="" type="button" th:data-product-id="${product.proid}">修改</button>
+        </td>
+
+    </tr>
+
+    </tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/index/ProductCreateModifyEvent.js"></script>
+
+</body>
+</html>
