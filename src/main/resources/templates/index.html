@@ -27,6 +27,7 @@
         <th>Price</th>
         <th>Stock</th>
         <th>Description</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody>
@@ -44,9 +45,28 @@
     <td th:text="${product.proprice}">Price</td>
         <td th:text="${product.prostock}">Stock</td>
         <td th:text="${product.prodescription}">Description</td>
+        <td>
+            <button class="productModify-Btn" type="button" th:onclick="productModifyEvent(this)">修改</button>
+        </td>
     </tr>
+
+
     </tbody>
 </table>
 
+    <script>
+
+        document.addEventlistener("DOMContentLoaded" , function(){
+
+        })
+
+        function productModifyEvent(){
+            const productModify_BtnList = document.querySelectorAll(".productModify-Btn");
+
+            for(let i = 0 ; i < productModify_BtnList.length ; i++){
+                productModify_BtnList[i].
+            }
+        }
+    </script>
 </body>
 </html>
