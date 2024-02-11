@@ -20,6 +20,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Category</th>
+        <th>圖片</th>
         <th>Price</th>
         <th>Stock</th>
         <th>Description</th>
@@ -30,6 +31,11 @@
         <td th:text="${product.proid}">1</td>
         <td th:text="${product.proname}">Product Name</td>
         <td th:text="${product.procategory}">Category</td>
+
+        <td>
+            <img th:src="${product.proimage}" alt="Image">
+        </td>
+
         <td th:text="${product.proprice}">Price</td>
         <td th:text="${product.prostock}">Stock</td>
         <td th:text="${product.prodescription}">Description</td>
