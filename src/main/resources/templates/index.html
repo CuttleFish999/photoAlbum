@@ -39,6 +39,9 @@
             <!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
             <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"
                  alt="產品圖片"/>
+            <button class="product-img-change-btn">更換圖片</button>
+            <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">
+
         </td>
 
 
@@ -77,6 +80,11 @@
         const ID = document.querySelector(".productId").innerText;
         const Name = document.querySelector(".productName").innerText;
         const Category = document.querySelector(".productCategory").innerText;
+
+        const proImageElement = document.querySelector(".product-img");
+        const proImage = proImageElement ? proImageElement.src.replace(/^data:image\/jpeg;base64,/, "") : "";
+
+
         const productPrice = document.querySelector(".productPrice").innerText;
         const productStock = document.querySelector(".productStock").innerText;
         const productDescription = document.querySelector(".productDescription").innerText;
@@ -85,7 +93,7 @@
             proid : ID,
             proname : Name,
             procategory : Category,
-            proimage : "",
+            proimage: proImage,
             proprice : parseFloat(productPrice),
             prostock : parseInt(productStock, 10),
             prodescription : productDescription
