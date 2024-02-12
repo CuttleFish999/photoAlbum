@@ -54,7 +54,7 @@ public class ProductController {
 
     @GetMapping("")
     public String listProducts(Model model,
-                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "3") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> productPage = productServiceImpl.getAllProductsPaged(pageRequest);
