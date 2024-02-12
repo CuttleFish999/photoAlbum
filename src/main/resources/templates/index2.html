@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
-
+    <!-- 引入Bootstrap样式 -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .product-img {
-            width: 100px;
-
-        }
 
     </style>
 
@@ -58,15 +55,20 @@
     </tbody>
 </table>
 <!-- 分頁導航 -->
-<div>
-    <ul>
-        <li th:if="${products.hasPrevious()}"><a th:href="@{|?page=${products.number - 1}|}">Previous</a></li>
-        <li th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}">
-            <a th:href="@{|?page=${i}|}" th:text="${i + 1}">1</a>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item" th:if="${products.hasPrevious()}">
+            <a class="page-link" th:href="@{|?page=${products.number - 1}|}">上一頁</a>
         </li>
-        <li th:if="${products.hasNext()}"><a th:href="@{|?page=${products.number + 1}|}">Next</a></li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}">
+            <a class="page-link" th:href="@{|?page=${i}|}" th:text="${i + 1}">1</a>
+        </li>
+        <li class="page-item" th:if="${products.hasNext()}">
+            <a class="page-link" th:href="@{|?page=${products.number + 1}|}">下一頁</a>
+        </li>
     </ul>
-</div>
+</nav>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -87,7 +89,7 @@
                         reader.readAsDataURL(file);
                     }
                 };
-                fileInput.click(); // 触发文件输入
+                fileInput.click();
             });
         });
 

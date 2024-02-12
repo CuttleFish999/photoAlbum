@@ -32,3 +32,52 @@ thead tr {
     background-color: white;
     color: black;
 }
+
+
+.product-img {
+    width: 100px;
+
+}
+/* 分頁 */
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination li {
+    display: inline;
+    margin-right: 5px;
+
+    text-decoration: none;
+}
+
+.pagination li a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.pagination li a:hover {
+    background-color: #ddd;
+}
+
+
+.pagination li:before {
+    content: none;
+}
+
+
+.pagination li a {
+    text-decoration: none;
+}
+
