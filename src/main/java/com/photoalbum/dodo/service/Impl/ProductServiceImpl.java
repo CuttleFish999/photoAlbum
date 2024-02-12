@@ -52,9 +52,24 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(findProduct.isPresent());
 
         if(findProduct.isPresent()){
-            System.out.println(product.getProimage());
+//            System.out.println(product.getProimage());
             findProduct.get().setProname(product.getProname());
+            findProduct.get().setProcategory(product.getProcategory());
             findProduct.get().setProimage(product.getProimage());
+
+            findProduct.get().setProprice(product.getProprice());
+            findProduct.get().setProstock(product.getProstock());
+            findProduct.get().setProdescription(product.getProdescription());
+
+
+
+            //proid v
+            //proname v
+            //procategory v
+            //proimage v
+            //proprice
+            //prostock
+            //prodescription
 
             Product updataProduct = productRepository.save(findProduct.get());
 
