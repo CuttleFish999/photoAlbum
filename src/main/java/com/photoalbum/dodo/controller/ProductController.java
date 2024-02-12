@@ -70,7 +70,7 @@ public class ProductController {
 
         model.addAttribute("products", productPage);
         model.addAttribute("images", imageMap);
-        return "index2"; // 确保这是正确的模板名称
+        return "index3"; // 确保这是正确的模板名称
     }
 
 
