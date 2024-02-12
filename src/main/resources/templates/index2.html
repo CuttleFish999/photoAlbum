@@ -11,46 +11,19 @@
     <!-- 引入Bootstrap样式 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .pagination {
-            margin-top: 20px;
+        table {
+            height: 80%;
+            overflow-y: scroll;
+            table-layout: fixed;
         }
 
-        .pagination ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+        img {
+            max-height: 100px;
         }
-
-        .pagination li {
-            display: inline;
-            margin-right: 5px;
+        img:hover{
+            transform: scale(5);
+            transition:.3s ;
         }
-
-        .pagination li a {
-            padding: 8px 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #333;
-            background-color: #fff;
-        }
-
-        .pagination li a:hover {
-            background-color: #f2f2f2;
-        }
-
-        .pagination li.active a {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        .pagination li.disabled a {
-            pointer-events: none;
-            cursor: default;
-            color: #ccc;
-        }
-
-
     </style>
 
 </head>
