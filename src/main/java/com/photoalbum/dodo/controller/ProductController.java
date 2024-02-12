@@ -58,17 +58,19 @@ public class ProductController {
                                @RequestParam(defaultValue = "3") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> productPage = productServiceImpl.getAllProductsPaged(pageRequest);
+        Map<Integer, String> imageMap = new HashMap<>();
 
-        List<String> imagesBase64 = productPage.getContent().stream()
-                .map(product -> {
-                    byte[] imageBytes = product.getProimage(); // 假设getProimage返回图像的字节
-                    return Base64.getEncoder().encodeToString(imageBytes);
-                })
-                .collect(Collectors.toList());
+        for (Product product : productPage.getContent()) {
+            byte[] imageBytes = product.getProimage();
+            if (imageBytes != null) {
+                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                imageMap.put(product.getProid(), imageBase64);
+            }
+        }
 
         model.addAttribute("products", productPage);
-        model.addAttribute("images", imagesBase64);
-        return "index2";
+        model.addAttribute("images", imageMap);
+        return "index2"; // 确保这是正确的模板名称
     }
 
 
