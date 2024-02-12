@@ -11,19 +11,31 @@
     <!-- 引入Bootstrap样式 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        table {
-            height: 80%;
-            overflow-y: scroll;
-            table-layout: fixed;
+
+        #overlay {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
-        img {
-            max-height: 100px;
+        #overlay img {
+            display: block;
+            margin: 0 auto;
+            max-width: 90%;
+            max-height: 90%;
         }
-        img:hover{
-            transform: scale(5);
-            transition:.3s ;
+
+        #overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
     </style>
 
 </head>
@@ -91,7 +103,9 @@
     </ul>
 </nav>
 
-
+<div id="overlay">
+    <img id="overlay-img" src="" alt="Product Image">
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -125,6 +139,10 @@
                 ModifyProductEvent_Ajax(ProductObjcet);
             });
         });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setupImageOverlay();
     });
 
     function PackJsonObject(productRow) {
@@ -165,6 +183,23 @@
             },
             error: function (xhr, status, error) {
                 console.error('Error updating product:', xhr.statusText);
+            }
+        });
+    }
+
+    function setupImageOverlay() {
+        document.querySelectorAll('.product-img').forEach(img => {
+            img.addEventListener('click', function () {
+                const overlay = document.getElementById('overlay');
+                const overlayImg = document.getElementById('overlay-img');
+                overlayImg.src = this.src;
+                overlay.classList.add('active');
+            });
+        });
+
+        document.getElementById('overlay').addEventListener('click', function (e) {
+            if (e.target.id === 'overlay') {
+                this.classList.remove('active');
             }
         });
     }

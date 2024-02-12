@@ -38,6 +38,18 @@ thead tr {
     width: 100px;
 
 }
+
+table {
+    height: 80%;
+    overflow-y: scroll;
+    table-layout: fixed;
+}
+
+img {
+    max-height: 100px;
+}
+
+
 /* 分頁 */
 .pagination {
     margin-top: 20px;
