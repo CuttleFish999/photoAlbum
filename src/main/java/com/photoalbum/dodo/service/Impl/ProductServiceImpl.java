@@ -62,15 +62,6 @@ public class ProductServiceImpl implements ProductService {
             findProduct.get().setProdescription(product.getProdescription());
 
 
-
-            //proid v
-            //proname v
-            //procategory v
-            //proimage v
-            //proprice
-            //prostock
-            //prodescription
-
             Product updataProduct = productRepository.save(findProduct.get());
 
             System.out.println("更新成功");

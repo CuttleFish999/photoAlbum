@@ -131,7 +131,16 @@
     });
 
     function makeEditable(element) {
-        const spanElement = element.querySelector('span');
+        // Check if the element contains a span, if not we'll create one
+        let spanElement = element.querySelector('span');
+        if (!spanElement) {
+            spanElement = document.createElement('span');
+            spanElement.textContent = element.textContent.trim(); // Use the current text content of the element
+            element.textContent = ''; // Clear the current content
+            element.appendChild(spanElement); // Append the span to the element
+        }
+
+        // Continue with the rest of your code
         const text = spanElement.textContent;
         const input = document.createElement('input');
         input.type = 'text';
