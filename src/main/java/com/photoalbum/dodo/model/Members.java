@@ -1,25 +1,44 @@
 package com.photoalbum.dodo.model;
 
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Date;
-
+@Entity
+@Table(name = "members")
 public class Members {
 
-private Integer memberid;                //會員編號
-private String account;                  //帳號
-private String password;                 //密碼
-private String name;                     //姓名
-private String email;                    //電子郵件
-private Date birthday;                   //生日
-private String phonenumber;              //手機號碼
-private String otherphonenumber;         //其他手機號碼
-private String homenumber;               //家裡電話
-private Integer gender;                  //性別
-private byte[] avatar;                   //頭像
-private Timestamp createtime;            //建立時間
-private Timestamp updatedtime;           //更新時間
-private Timestamp lastonlinetime;        //最後上線時間
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "memberid")
+    private Integer memberid;                //會員編號
 
+    @Column(name = "account")
+    private String account;                  //帳號
+    @Column(name = "password")
+    private String password;                 //密碼
+    @Column(name = "name")
+    private String name;                     //姓名
+    @Column(name = "email")
+    private String email;                    //電子郵件
+    @Column(name = "birthday")
+    private Date birthday;                   //生日
+    @Column(name = "phonenumber")
+    private String phonenumber;              //手機號碼
+    @Column(name = "otherphonenumber")
+    private String otherphonenumber;         //其他手機號碼
+    @Column(name = "homenumber")
+    private String homenumber;               //家裡電話
+    @Column(name = "gender")
+    private String gender;                  //性別
+    @Column(name = "avatar")
+    private byte[] avatar;                   //頭像
+    @Column(name = "createtime")
+    private Timestamp createtime;            //建立時間
+    @Column(name = "updatedtime")
+    private Timestamp updatedtime;           //更新時間
+    @Column(name = "lastonlinetime")
+    private Timestamp lastonlinetime;        //最後上線時間
 
     public Integer getMemberid() {
         return memberid;
@@ -93,11 +112,11 @@ private Timestamp lastonlinetime;        //最後上線時間
         this.homenumber = homenumber;
     }
 
-    public Integer getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
