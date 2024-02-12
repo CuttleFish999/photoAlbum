@@ -24,24 +24,6 @@ public class ProductController {
     @Autowired
     private ProductServiceImpl productServiceImpl;
 
-//  查詢所有
-//    @GetMapping("/")
-//    public String listProducts(Model model) {
-//        List<Product> productList = productServiceImpl.getAllProduct();
-//        Map<Integer, String> imageMap = new HashMap<>();
-//
-//        for (Product product : productList) {
-//            byte[] imageBytes = product.getProimage();
-//            if (imageBytes != null) {
-//                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
-//                imageMap.put(product.getProid(), imageBase64);
-//            }
-//        }
-//        model.addAttribute("products", productList);
-//        model.addAttribute("images", imageMap);
-//        return "index";
-//    }
-
 //  單筆新增&修改
     @PostMapping("/insert/{productId}")
     @ResponseBody
