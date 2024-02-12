@@ -4,6 +4,9 @@ import com.photoalbum.dodo.model.Product;
 import com.photoalbum.dodo.service.Impl.ProductServiceImpl;
 import com.photoalbum.dodo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/Products")
@@ -21,22 +25,22 @@ public class ProductController {
     private ProductServiceImpl productServiceImpl;
 
 //  查詢所有
-    @GetMapping("/")
-    public String listProducts(Model model) {
-        List<Product> productList = productServiceImpl.getAllProduct();
-        Map<Integer, String> imageMap = new HashMap<>();
-
-        for (Product product : productList) {
-            byte[] imageBytes = product.getProimage();
-            if (imageBytes != null) {
-                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
-                imageMap.put(product.getProid(), imageBase64);
-            }
-        }
-        model.addAttribute("products", productList);
-        model.addAttribute("images", imageMap);
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String listProducts(Model model) {
+//        List<Product> productList = productServiceImpl.getAllProduct();
+//        Map<Integer, String> imageMap = new HashMap<>();
+//
+//        for (Product product : productList) {
+//            byte[] imageBytes = product.getProimage();
+//            if (imageBytes != null) {
+//                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
+//                imageMap.put(product.getProid(), imageBase64);
+//            }
+//        }
+//        model.addAttribute("products", productList);
+//        model.addAttribute("images", imageMap);
+//        return "index";
+//    }
 
 //  單筆新增&修改
     @PostMapping("/insert/{productId}")
@@ -47,4 +51,25 @@ public class ProductController {
 
         return updateId;
     }
+
+    @GetMapping("")
+    public String listProducts(Model model,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "3") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> productPage = productServiceImpl.getAllProductsPaged(pageRequest);
+
+        List<String> imagesBase64 = productPage.getContent().stream()
+                .map(product -> {
+                    byte[] imageBytes = product.getProimage(); // 假设getProimage返回图像的字节
+                    return Base64.getEncoder().encodeToString(imageBytes);
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("products", productPage);
+        model.addAttribute("images", imagesBase64);
+        return "index2";
+    }
+
+
 }

@@ -4,6 +4,9 @@ import com.photoalbum.dodo.dao.ProductRepository;
 import com.photoalbum.dodo.model.Product;
 import com.photoalbum.dodo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,6 +70,11 @@ public class ProductServiceImpl implements ProductService {
 
         }
 
+    }
+
+    @Override
+    public Page<Product> getAllProductsPaged(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
 

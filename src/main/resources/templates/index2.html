@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+
+    <style>
+        .product-img {
+            width: 100px;
+
+        }
+
+    </style>
+
+</head>
+<body>
+<h1>首頁</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>圖片</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Description</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products.content}">
+        <td class="productId" th:text="${product.proid}">1</td>
+        <td class="productName" th:text="${product.proname}">Product Name</td>
+        <td class="productCategory" th:text="${product.procategory}">Category</td>
+
+        <td>
+            <!--            <img th:src="'data:image/png;base64,' + ${products.proimage}" />-->
+            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"
+                 alt="產品圖片"/>
+            <button class="product-img-change-btn">更換圖片</button>
+            <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">
+
+        </td>
+
+        <td class="productPrice" th:text="${product.proprice}">Price</td>
+        <td class="productStock" th:text="${product.prostock}">Stock</td>
+        <td class="productDescription" th:text="${product.prodescription}">Description</td>
+        <td>
+            <button class="productModify-Btn" ONCLICK="" type="button" th:data-product-id="${product.proid}">修改
+            </button>
+        </td>
+
+    </tr>
+
+    </tbody>
+</table>
+<!-- 分頁導航 -->
+<div>
+    <ul>
+        <li th:if="${products.hasPrevious()}"><a th:href="@{|?page=${products.number - 1}|}">Previous</a></li>
+        <li th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}">
+            <a th:href="@{|?page=${i}|}" th:text="${i + 1}">1</a>
+        </li>
+        <li th:if="${products.hasNext()}"><a th:href="@{|?page=${products.number + 1}|}">Next</a></li>
+    </ul>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const fileInput = document.getElementById('hiddenFileInput');
+        document.querySelectorAll('.product-img-change-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const productRow = this.closest('tr');
+                fileInput.onchange = function () {
+                    const file = fileInput.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const base64Image = e.target.result;
+                            productRow.querySelector('.product-img').src = base64Image;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                fileInput.click(); // 触发文件输入
+            });
+        });
+
+        const modifyButtons = document.querySelectorAll('.productModify-Btn');
+        modifyButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const productRow = this.closest('tr');
+                const ProductObjcet = PackJsonObject(productRow);
+                alert(ProductObjcet.proid);
+                ModifyProductEvent_Ajax(ProductObjcet);
+            });
+        });
+    });
+
+    function PackJsonObject(productRow) {
+
+        const ID = productRow.querySelector(".productId").innerText;
+        const Name = productRow.querySelector(".productName").innerText;
+        const Category = productRow.querySelector(".productCategory").innerText;
+
+        let proImageElement = productRow.querySelector(".product-img");
+        let proImage = proImageElement ? proImageElement.src.replace(/^data:image\/jpeg;base64,/, "") : "";
+
+        const productPrice = productRow.querySelector(".productPrice").innerText;
+        const productStock = productRow.querySelector(".productStock").innerText;
+        const productDescription = productRow.querySelector(".productDescription").innerText;
+
+        const ProductObjcet = {
+            proid: ID,
+            proname: Name,
+            procategory: Category,
+            proimage: proImage,
+            proprice: parseFloat(productPrice),
+            prostock: parseInt(productStock, 10),
+            prodescription: productDescription
+        }
+
+        return ProductObjcet;
+    }
+
+    function ModifyProductEvent_Ajax(ProductObjcet) {
+        $.ajax({
+            url: '/Products/insert/' + ProductObjcet.proid,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ProductObjcet),
+            dataType: 'json',
+            success: function (response) {
+                console.log('Product updated with ID:', response);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating product:', xhr.statusText);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

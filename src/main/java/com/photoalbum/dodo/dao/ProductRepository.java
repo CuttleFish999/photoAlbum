@@ -1,9 +1,10 @@
 package com.photoalbum.dodo.dao;
 
 import com.photoalbum.dodo.model.Product;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-
-public interface ProductRepository extends CrudRepository<Product,Integer> {
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 }
