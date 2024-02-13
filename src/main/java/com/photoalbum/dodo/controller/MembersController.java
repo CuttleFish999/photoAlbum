@@ -39,7 +39,6 @@ public class MembersController {
         Page<Members> membersPage = membersServiceImpl.getAllMemberPaged(pageRequest);
         Map<Integer, String> imageMap = new HashMap<>();
 
-
             for (Members member : membersPage.getContent()) {
                 byte[] imageBytes = member.getAvatar();
                 if (imageBytes != null) {
@@ -47,7 +46,6 @@ public class MembersController {
                     imageMap.put(member.getMemberid(), imageBase64);
                 }
             }
-
 
             model.addAttribute("membersPage", membersPage);
             model.addAttribute("imageMap", imageMap);
