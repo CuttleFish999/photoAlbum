@@ -76,27 +76,23 @@
         <td class="" id="otherphonenumber" th:text="${member.getOtherphonenumber}"></td>
         <td class="" id="homenumber" th:text="${member.getHomenumber}"></td>
         <td class="" id="gender" th:text="${member.getGender}"></td>
-<!--        <td class="" id="avatar" th:text="${member.getAvatar}">-->
+
         <td>
-            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${imageMap[__${member.getMemberid}__]}"
+            <img class="product-img" id="avatar" th:src="'data:image/jpeg;base64,' + ${imageMap[__${member.getMemberid}__]}"
                  alt="產品圖片"/>
             <button class="product-img-change-btn">更換圖片</button>
             <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">
         </td>
-<!--        </td>-->
+
         <td class="" id="createtime" th:text="${member.getCreatetime}"></td>
         <td class="" id="updatedtime" th:text="${member.getUpdatedtime}"></td>
         <td class="" id="lastonlinetime" th:text="${member.getLastonlinetime}"></td>
+
         <td>
             <button class="" type="button" th:data-member-id="${member.memberid}" onclick="modifyEvent(this)">
                 修改
             </button>
         </td>
-
-<!--            <button class="productModify-Btn" type="button" th:data-product-id="${product.proid}"-->
-<!--                    onclick="modifyProduct(this)">修改-->
-<!--            </button>-->
-<!--        </td>-->
     </tr>
     </tbody>
 </table>
@@ -128,72 +124,89 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-<!--  修改按鈕事件  -->
-    $(document).ready(function(){
+    <!--  修改按鈕事件  -->
+    $(document).ready(function () {
+        const fileInput = document.getElementById('hiddenFileInput');
+        document.querySelectorAll('.product-img-change-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const productRow = this.closest('tr');
+                fileInput.onchange = function () {
+                    const file = fileInput.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            productRow.querySelector('#avatar').src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                fileInput.click();
+            });
+        })
+    });
 
-    })
+        function modifyEvent(button) {
+            // const productRow = button.closest('tr');
+            const CurrentObject = button.closest('tr');
+            const ProductObject = PackJsonObject(CurrentObject);
+            alert(JSON.stringify(ProductObject));
+            Modify_Member_Ajax(Object);
+        }
 
-    function modifyEvent(button) {
-        // const productRow = button.closest('tr');
-        const CurrentObject = button.closest('tr');
-        const ProductObject = PackJsonObject(CurrentObject);
-        alert(JSON.stringify(ProductObject));
-        Modify_Member_Ajax(Object);
-    }
+        function PackJsonObject(Object) {
+            // const ID = productRow.querySelector(".productId").innerText;
+            // const name = productRow.querySelector(".product-img").src.replace(/^data:image\/jpeg;base64,/, "");
 
-    function PackJsonObject(Object) {
-        // const ID = productRow.querySelector(".productId").innerText;
-        // const name = productRow.querySelector(".product-img").src.replace(/^data:image\/jpeg;base64,/, "");
+            const ID = Object.querySelector("#ID").innerText;
+            const account = Object.querySelector("#account").innerText;
+            const password = Object.querySelector("#password").innerText;
+            const name = Object.querySelector("#name").innerText;
+            const email = Object.querySelector("#email").innerText;
+            const birthday = Object.querySelector("#birthday").innerText;
+            const phonenumber = Object.querySelector("#phonenumber").innerText;
+            const otherphonenumber = Object.querySelector("#otherphonenumber").innerText;
+            const homenumber = Object.querySelector("#homenumber").innerText;
+            const gender = Object.querySelector("#gender").innerText;
+            const avatar = Object.querySelector("#avatar").src.replace(/^data:image\/jpeg;base64,/, "");
+            const createtime = Object.querySelector("#createtime").innerText;
+            const updatedtime = Object.querySelector("#updatedtime").innerText;
+            const lastonlinetime = Object.querySelector("#lastonlinetime").innerText;
 
-        const ID = Object.querySelector("#ID").innerText;
-        const account = Object.querySelector("#account").innerText;
-        const password = Object.querySelector("#password").innerText;
-        const name = Object.querySelector("#name").innerText;
-        const email = Object.querySelector("#email").innerText;
-        const birthday =  Object.querySelector("#birthday").innerText;
-        const phonenumber = Object.querySelector("#phonenumber").innerText;
-        const otherphonenumber = Object.querySelector("#otherphonenumber").innerText;
-        const homenumber = Object.querySelector("#homenumber").innerText;
-        const gender = Object.querySelector("#gender").innerText;
-        // const avatar = Object.querySelector("#avatar").src.replace(/^data:image\/jpeg;base64,/, "");
-        const createtime = Object.querySelector("#createtime").innerText;
-        const updatedtime = Object.querySelector("#updatedtime").innerText;
-        const lastonlinetime = Object.querySelector("#lastonlinetime").innerText;
-
-        return {
-            memberid : ID,
-            account : account,
-            password : password,
-            name : name,
-            email : email,
-            birthday : birthday,
-            phonenumber : phonenumber,
-            otherphonenumber : otherphonenumber,
-            homenumber : homenumber,
-            gender : gender,
-            // avatar : avatar,
-            createtime : createtime,
-            updatedtime : updatedtime,
-            lastonlinetime : lastonlinetime
-        };
-    }
+            return {
+                memberid: ID,
+                account: account,
+                password: password,
+                name: name,
+                email: email,
+                birthday: birthday,
+                phonenumber: phonenumber,
+                otherphonenumber: otherphonenumber,
+                homenumber: homenumber,
+                gender: gender,
+                avatar : avatar,
+                createtime: createtime,
+                updatedtime: updatedtime,
+                lastonlinetime: lastonlinetime
+            };
+        }
 
 
-    function Modify_Member_Ajax(CurrentObject) {
-        $.ajax({
-            url: '/members/insert/' + CurrentObject.memberid,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(CurrentObject),
-            dataType: 'json',
-            success: function (response) {
-                console.log('Product updated with ID:', response);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error updating product:', xhr.statusText);
-            }
-        });
-    }
+        function Modify_Member_Ajax(CurrentObject) {
+            $.ajax({
+                url: '/members/insert/' + CurrentObject.memberid,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(CurrentObject),
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Product updated with ID:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating product:', xhr.statusText);
+                }
+            });
+        }
+
 
     // document.addEventListener("DOMContentLoaded", function () {
     //     const fileInput = document.getElementById('hiddenFileInput');
