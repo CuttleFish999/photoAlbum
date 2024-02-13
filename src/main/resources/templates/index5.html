@@ -76,7 +76,14 @@
         <td class="" id="otherphonenumber" th:text="${member.getOtherphonenumber}"></td>
         <td class="" id="homenumber" th:text="${member.getHomenumber}"></td>
         <td class="" id="gender" th:text="${member.getGender}"></td>
-        <td class="" id="avatar" th:text="${member.getAvatar}"></td>
+<!--        <td class="" id="avatar" th:text="${member.getAvatar}">-->
+        <td>
+            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${imageMap[__${member.getMemberid}__]}"
+                 alt="產品圖片"/>
+            <button class="product-img-change-btn">更換圖片</button>
+            <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">
+        </td>
+<!--        </td>-->
         <td class="" id="createtime" th:text="${member.getCreatetime}"></td>
         <td class="" id="updatedtime" th:text="${member.getUpdatedtime}"></td>
         <td class="" id="lastonlinetime" th:text="${member.getLastonlinetime}"></td>
