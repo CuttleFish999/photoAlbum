@@ -45,33 +45,47 @@
 <table>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>圖片</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th>Description</th>
+        <th>會員ID</th>
+        <th>會員帳號</th>
+        <th>會員密碼</th>
+        <th>會員名稱</th>
+        <th>會員Email</th>
+        <th>會員生日</th>
+        <th>會員手機</th>
+        <th>其他手機號碼</th>
+        <th>家裡電話</th>
+        <th>性別</th>
+        <th>頭像</th>
+        <th>建立時間</th>
+        <th>更新時間</th>
+        <th>最後上線時間</th>
+
+
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each=" member : ${membersPage.content}">
-        <td class="productId" th:text="${member.getMemberid}"></td>
-<!--        <td class="productName" ondblclick="makeEditable(this)"><span th:text="${product.proname}"></span></td>-->
-<!--        <td class="productCategory" ondblclick="makeEditable(this)"><span th:text="${product.procategory}"></span></td>-->
-<!--        <td>-->
-<!--            &lt;!&ndash;            <img th:src="'data:image/png;base64,' + ${products.proimage}" />&ndash;&gt;-->
-<!--            <img class="product-img" th:src="'data:image/jpeg;base64,' + ${images[__${product.proid}__]}"-->
-<!--                 alt="產品圖片"/>-->
-<!--            <button class="product-img-change-btn">更換圖片</button>-->
-<!--            <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*">-->
-<!--        </td>-->
-<!--        <td class="productPrice" ondblclick="makeEditable(this)"><span th:text="${product.proprice}"></span></td>-->
-<!--        <td class="productStock" ondblclick="makeEditable(this)"><span th:text="${product.prostock}"></span></td>-->
-<!--        <td class="productDescription" ondblclick="makeEditable(this)"><span th:text="${product.prodescription}"></span>-->
-<!--        </td>-->
-<!--        <td>-->
+        <td class="" id="ID" th:text="${member.getMemberid}"></td>
+        <td class="" id="account" th:text="${member.getAccount}"></td>
+        <td class="" id="password" th:text="${member.getPassword}"></td>
+        <td class="" id="name" th:text="${member.getName}"></td>
+        <td class="" id="email" th:text="${member.getEmail}"></td>
+        <td class="" id="birthday" th:text="${member.getBirthday}"></td>
+        <td class="" id="phonenumber" th:text="${member.getPhonenumber}"></td>
+        <td class="" id="otherphonenumber" th:text="${member.getOtherphonenumber}"></td>
+        <td class="" id="homenumber" th:text="${member.getHomenumber}"></td>
+        <td class="" id="gender" th:text="${member.getGender}"></td>
+        <td class="" id="avatar" th:text="${member.getAvatar}"></td>
+        <td class="" id="createtime" th:text="${member.getCreatetime}"></td>
+        <td class="" id="updatedtime" th:text="${member.getUpdatedtime}"></td>
+        <td class="" id="lastonlinetime" th:text="${member.getLastonlinetime}"></td>
+        <td>
+            <button class="" type="button" th:data-member-id="${member.memberid}" onclick="modifyEvent(this)">
+                修改
+            </button>
+        </td>
+
 <!--            <button class="productModify-Btn" type="button" th:data-product-id="${product.proid}"-->
 <!--                    onclick="modifyProduct(this)">修改-->
 <!--            </button>-->
@@ -106,90 +120,63 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const fileInput = document.getElementById('hiddenFileInput');
-        document.querySelectorAll('.product-img-change-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const productRow = this.closest('tr');
-                fileInput.onchange = function () {
-                    const file = fileInput.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            productRow.querySelector('.product-img').src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                };
-                fileInput.click();
-            });
-        });
+<!--  修改按鈕事件  -->
+    $(document).ready(function(){
 
-        document.querySelectorAll('.productName, .productCategory, .productPrice, .productStock, .productDescription').forEach(cell => {
-            cell.addEventListener('dblclick', function () {
-                makeEditable(this);
-            });
-        });
-    });
+    })
 
-    function makeEditable(element) {
-        // Check if the element contains a span, if not we'll create one
-        let spanElement = element.querySelector('span');
-        if (!spanElement) {
-            spanElement = document.createElement('span');
-            spanElement.textContent = element.textContent.trim(); // Use the current text content of the element
-            element.textContent = ''; // Clear the current content
-            element.appendChild(spanElement); // Append the span to the element
-        }
-
-        // Continue with the rest of your code
-        const text = spanElement.textContent;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = text;
-        element.innerHTML = '';
-        element.appendChild(input);
-        input.focus();
-        input.onblur = function () {
-            spanElement.textContent = input.value;
-            element.innerHTML = '';
-            element.appendChild(spanElement);
-        };
-    }
-
-    function modifyProduct(button) {
-        const productRow = button.closest('tr');
-        const ProductObject = PackJsonObject(productRow);
+    function modifyEvent(button) {
+        // const productRow = button.closest('tr');
+        const CurrentObject = button.closest('tr');
+        const ProductObject = PackJsonObject(CurrentObject);
         alert(JSON.stringify(ProductObject));
-        ModifyProductEvent_Ajax(ProductObject);
+        Modify_Member_Ajax(Object);
     }
 
-    function PackJsonObject(productRow) {
-        const ID = productRow.querySelector(".productId").innerText;
-        const Name = productRow.querySelector(".productName input").value;
-        const Category = productRow.querySelector(".productCategory input").value;
-        const Image = productRow.querySelector(".product-img").src.replace(/^data:image\/jpeg;base64,/, "");
-        const Price = productRow.querySelector(".productPrice input").value;
-        const Stock = productRow.querySelector(".productStock input").value;
-        const Description = productRow.querySelector(".productDescription input").value;
+    function PackJsonObject(Object) {
+        // const ID = productRow.querySelector(".productId").innerText;
+        // const name = productRow.querySelector(".product-img").src.replace(/^data:image\/jpeg;base64,/, "");
+
+        const ID = Object.querySelector("#ID").innerText;
+        const account = Object.querySelector("#account").innerText;
+        const password = Object.querySelector("#password").innerText;
+        const name = Object.querySelector("#name").innerText;
+        const email = Object.querySelector("#email").innerText;
+        const birthday =  Object.querySelector("#birthday").innerText;
+        const phonenumber = Object.querySelector("#phonenumber").innerText;
+        const otherphonenumber = Object.querySelector("#otherphonenumber").innerText;
+        const homenumber = Object.querySelector("#homenumber").innerText;
+        const gender = Object.querySelector("#gender").innerText;
+        // const avatar = Object.querySelector("#avatar").src.replace(/^data:image\/jpeg;base64,/, "");
+        const createtime = Object.querySelector("#createtime").innerText;
+        const updatedtime = Object.querySelector("#updatedtime").innerText;
+        const lastonlinetime = Object.querySelector("#lastonlinetime").innerText;
 
         return {
-            proid: ID,
-            proname: Name,
-            procategory: Category,
-            proimage: Image,
-            proprice: parseFloat(Price),
-            prostock: parseInt(Stock, 10),
-            prodescription: Description
+            memberid : ID,
+            account : account,
+            password : password,
+            name : name,
+            email : email,
+            birthday : birthday,
+            phonenumber : phonenumber,
+            otherphonenumber : otherphonenumber,
+            homenumber : homenumber,
+            gender : gender,
+            // avatar : avatar,
+            createtime : createtime,
+            updatedtime : updatedtime,
+            lastonlinetime : lastonlinetime
         };
     }
 
-    function ModifyProductEvent_Ajax(ProductObject) {
+
+    function Modify_Member_Ajax(CurrentObject) {
         $.ajax({
-            url: '/Products/insert/' + ProductObject.proid,
+            url: '/members/insert/' + CurrentObject.memberid,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(ProductObject),
+            data: JSON.stringify(CurrentObject),
             dataType: 'json',
             success: function (response) {
                 console.log('Product updated with ID:', response);
@@ -199,6 +186,100 @@
             }
         });
     }
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const fileInput = document.getElementById('hiddenFileInput');
+    //     document.querySelectorAll('.product-img-change-btn').forEach(button => {
+    //         button.addEventListener('click', function () {
+    //             const productRow = this.closest('tr');
+    //             fileInput.onchange = function () {
+    //                 const file = fileInput.files[0];
+    //                 if (file) {
+    //                     const reader = new FileReader();
+    //                     reader.onload = function (e) {
+    //                         productRow.querySelector('.product-img').src = e.target.result;
+    //                     };
+    //                     reader.readAsDataURL(file);
+    //                 }
+    //             };
+    //             fileInput.click();
+    //         });
+    //     });
+    //
+    //     document.querySelectorAll('.productName, .productCategory, .productPrice, .productStock, .productDescription').forEach(cell => {
+    //         cell.addEventListener('dblclick', function () {
+    //             makeEditable(this);
+    //         });
+    //     });
+    // });
+    //
+    // function makeEditable(element) {
+    //     // Check if the element contains a span, if not we'll create one
+    //     let spanElement = element.querySelector('span');
+    //     if (!spanElement) {
+    //         spanElement = document.createElement('span');
+    //         spanElement.textContent = element.textContent.trim(); // Use the current text content of the element
+    //         element.textContent = ''; // Clear the current content
+    //         element.appendChild(spanElement); // Append the span to the element
+    //     }
+    //
+    //     // Continue with the rest of your code
+    //     const text = spanElement.textContent;
+    //     const input = document.createElement('input');
+    //     input.type = 'text';
+    //     input.value = text;
+    //     element.innerHTML = '';
+    //     element.appendChild(input);
+    //     input.focus();
+    //     input.onblur = function () {
+    //         spanElement.textContent = input.value;
+    //         element.innerHTML = '';
+    //         element.appendChild(spanElement);
+    //     };
+    // }
+    //
+    // function modifyProduct(button) {
+    //     const productRow = button.closest('tr');
+    //     const ProductObject = PackJsonObject(productRow);
+    //     alert(JSON.stringify(ProductObject));
+    //     ModifyProductEvent_Ajax(ProductObject);
+    // }
+    //
+    // function PackJsonObject(productRow) {
+    //     const ID = productRow.querySelector(".productId").innerText;
+    //     const Name = productRow.querySelector(".productName input").value;
+    //     const Category = productRow.querySelector(".productCategory input").value;
+    //     const Image = productRow.querySelector(".product-img").src.replace(/^data:image\/jpeg;base64,/, "");
+    //     const Price = productRow.querySelector(".productPrice input").value;
+    //     const Stock = productRow.querySelector(".productStock input").value;
+    //     const Description = productRow.querySelector(".productDescription input").value;
+    //
+    //     return {
+    //         proid: ID,
+    //         proname: Name,
+    //         procategory: Category,
+    //         proimage: Image,
+    //         proprice: parseFloat(Price),
+    //         prostock: parseInt(Stock, 10),
+    //         prodescription: Description
+    //     };
+    // }
+    //
+    // function ModifyProductEvent_Ajax(ProductObject) {
+    //     $.ajax({
+    //         url: '/Products/insert/' + ProductObject.proid,
+    //         type: 'POST',
+    //         contentType: 'application/json',
+    //         data: JSON.stringify(ProductObject),
+    //         dataType: 'json',
+    //         success: function (response) {
+    //             console.log('Product updated with ID:', response);
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('Error updating product:', xhr.statusText);
+    //         }
+    //     });
+    // }
 
 </script>
 
