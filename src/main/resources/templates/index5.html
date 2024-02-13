@@ -97,8 +97,8 @@
 <!-- 分頁導航 -->
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-        <li class="page-item disabled" th:if="${!membersPage.first}">
-            <a class="page-link" href="#" aria-label="Previous" disabled>
+        <li class="page-item" th:class="${membersPage.first} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{|?page=${membersPage.number - 1}|}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -106,13 +106,14 @@
             th:class="${i eq membersPage.number} ? 'active' : ''">
             <a class="page-link" th:href="@{|?page=${i}|}" th:text="${i + 1}"></a>
         </li>
-        <li class="page-item disabled" th:if="${!membersPage.last}">
-            <a class="page-link" href="#" aria-label="Next" disabled>
+        <li class="page-item" th:class="${membersPage.last} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{|?page=${membersPage.number + 1}|}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
     </ul>
 </nav>
+
 
 <div id="overlay">
     <img id="overlay-img" src="" alt="Product Image">
