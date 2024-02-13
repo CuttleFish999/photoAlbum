@@ -38,6 +38,7 @@ public class MembersServiceImpl implements MembersService {
 
     @Override
     public Page<Members> getAllMemberPaged(Pageable pageable) {
-        return null;
+
+        return membersRepository.findAll(pageable);
     }
 }
