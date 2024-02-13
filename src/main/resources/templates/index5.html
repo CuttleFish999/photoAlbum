@@ -148,8 +148,8 @@
         function modifyEvent(button) {
             // const productRow = button.closest('tr');
             const CurrentObject = button.closest('tr');
-            const ProductObject = PackJsonObject(CurrentObject);
-            alert(JSON.stringify(ProductObject));
+            const Object = PackJsonObject(CurrentObject);
+            alert(JSON.stringify(Object));
             Modify_Member_Ajax(Object);
         }
 
