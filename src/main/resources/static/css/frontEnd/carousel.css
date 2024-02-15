@@ -1,0 +1,35 @@
+/* 輪播圖的基本樣式 */
+.slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    min-width: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 24px;
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+    padding: 10px;
+}
+
+.next {
+    right: 0;
+}
+
+.prev {
+    left: 0;
+}

@@ -5,7 +5,7 @@
     <title>Photo Website</title>
 <!--    <link rel="stylesheet" th:href="@{css/frontEnd/index.css}">-->
     <link rel="stylesheet" th:href="@{/css/frontEnd/index.css}">
-
+    <link rel="stylesheet" th:href="@{/css/frontEnd/carousel.css}">
     <style>
     </style>
 
@@ -29,9 +29,18 @@
 </header>
 
 <section id="featured-photos">
-    <!-- Slider implementation -->
-    <p>Featured Photos Slider Here</p>
+    <div class="slider">
+        <div class="slides">
+            <div class="slide" id="slide1"><img src="featured1.jpg" alt="Featured Photo 1"></div>
+            <div class="slide" id="slide2"><img src="featured2.jpg" alt="Featured Photo 2"></div>
+            <div class="slide" id="slide3"><img src="featured3.jpg" alt="Featured Photo 3"></div>
+
+        </div>
+        <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+        <a class="next" onclick="moveSlide(1)">&#10095;</a>
+    </div>
 </section>
+
 
 <section id="categories">
     <div class="category">
