@@ -67,7 +67,7 @@ public class MembersController {
             model.addAttribute("membersPage", membersPage);
             model.addAttribute("imageMap", imageMap);
 
-            return "index5";
+            return "/backStage/index";
         }
 
     }
