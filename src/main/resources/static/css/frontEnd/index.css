@@ -53,7 +53,7 @@ nav button {
 }
 
 #featured-photos p, #categories p, #popular-photos h2 {
-    margin: 20px 0;
+    margin: 1em 0;
     color: #333;
 }
 
@@ -75,7 +75,7 @@ footer {
     background-color: #007bff;
     color: white;
     text-align: center;
-    padding: 12px 20px;
+    /*padding: 12px 20px;*/
     position: relative;
     bottom: 0;
     width: 100%;
@@ -99,4 +99,11 @@ button:hover, a:hover {
 input[type="search"]:focus {
     border-color: #007bff;
     outline: none;
+}
+#categories{
+    text-align: center;
+}
+
+#popular-photos{
+    text-align: center;
 }
