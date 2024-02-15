@@ -21,6 +21,13 @@ public class MembersController {
     @Autowired
     private MembersServiceImpl membersServiceImpl;
 
+
+
+
+
+
+
+//  BackStage
     @PostMapping("/insert/{memberId}")
     @ResponseBody
     public Integer insertMember(@RequestBody Members members, @PathVariable Integer memberId) {
@@ -35,18 +42,6 @@ public class MembersController {
 
         return updatedMemberId;
     }
-
-
-    public byte[] decodeBase64ImageString(String base64ImageString) {
-        // Check if the string has a prefix that needs to be removed
-        if (base64ImageString.startsWith("data:image")) {
-            base64ImageString = base64ImageString.substring(base64ImageString.indexOf(",") + 1);
-        }
-
-        // Decode the Base64 encoded string into a byte array
-        return Base64.getDecoder().decode(base64ImageString);
-    }
-
 
     @GetMapping("/")
     public String listMembers(Model model,
