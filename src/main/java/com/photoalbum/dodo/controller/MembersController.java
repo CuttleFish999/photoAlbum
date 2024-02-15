@@ -21,12 +21,6 @@ public class MembersController {
     @Autowired
     private MembersServiceImpl membersServiceImpl;
 
-
-
-
-
-
-
 //  BackStage
     @PostMapping("/insert/{memberId}")
     @ResponseBody
