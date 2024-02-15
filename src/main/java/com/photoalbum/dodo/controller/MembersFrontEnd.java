@@ -15,8 +15,14 @@ public class MembersFrontEnd {
     @Autowired
     private MembersFrontEndServiceImpl MembersFrontEndServiceImpl;
 
+    @GetMapping("/test")
+    public String test(Model model) {
+        return "test";
+    }
+
+
     @GetMapping("")
-    public String index(Model model){
+    public String index(Model model) {
 
 //        membersServiceImpl.getAllMembers();
 
@@ -25,7 +31,7 @@ public class MembersFrontEnd {
 
     @ResponseBody
     @PostMapping("/insert/{MemberId}")
-    public Members insertPhoto(@RequestBody Members MemberId){
+    public Members insertPhoto(@RequestBody Members MemberId) {
 
         System.out.println(MemberId);
         Members memeber = MembersFrontEndServiceImpl.findMembersById(MemberId.getMemberid());
