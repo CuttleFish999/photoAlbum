@@ -9,8 +9,9 @@
     transition: transform 0.5s ease;
 }
 
-.slide {
+.slide-img {
     min-width: 100%;
+
     transition: opacity 0.5s ease;
 }
 
