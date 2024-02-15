@@ -1,0 +1,102 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+nav {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav #logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#nav-menu li {
+    list-style: none;
+    padding: 10px 0;
+}
+
+#nav-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#nav-menu.hidden {
+    display: none;
+}
+
+#search-bar input[type="search"] {
+    width: calc(100% - 20px);
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#featured-photos p, #categories p, #popular-photos h2 {
+    margin: 20px 0;
+    color: #333;
+}
+
+.category img, .photo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+
+.category, .photo {
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+    display: inline-block;
+}
+
+footer {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 12px 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* Add transitions for interactive elements */
+button, a, input[type="search"] {
+    transition: all 0.3s ease;
+}
+
+button:hover, a:hover {
+    opacity: 0.8;
+}
+
+input[type="search"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
