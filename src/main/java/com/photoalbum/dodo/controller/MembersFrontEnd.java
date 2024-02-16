@@ -3,7 +3,6 @@ package com.photoalbum.dodo.controller;
 
 import com.photoalbum.dodo.model.Members;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
-import com.photoalbum.dodo.service.Impl.MembersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +25,7 @@ public class MembersFrontEnd {
 
 //        membersServiceImpl.getAllMembers();
 
-        return "index";
+        return "frontEnd/index";
     }
 
     @ResponseBody
