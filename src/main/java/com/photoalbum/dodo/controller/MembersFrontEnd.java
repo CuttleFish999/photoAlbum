@@ -4,10 +4,12 @@ package com.photoalbum.dodo.controller;
 import com.photoalbum.dodo.model.Members;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.http.HttpStatus;
 @Controller
 @RequestMapping("")
 public class MembersFrontEnd {
@@ -36,17 +38,15 @@ public class MembersFrontEnd {
 
 //    @ResponseBody
     @PostMapping("/loginAPI")
-    public Members MemberLogin(@ModelAttribute Members Member){
+    public ResponseEntity<Members> MemberLogin(@ModelAttribute Members Member){
 //    public String memberLoginAPI(@RequestBody Members Member){
         System.out.println(Member);
         Members member = MembersFrontEndServiceImpl.findIdByAccountAndPassword(Member);
 
         if (member != null){
-            return member;
+            return ResponseEntity.ok(member);
         }
-
-        return null;
-
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
 
