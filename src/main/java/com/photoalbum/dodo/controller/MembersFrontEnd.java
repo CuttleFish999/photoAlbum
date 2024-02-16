@@ -28,20 +28,27 @@ public class MembersFrontEnd {
         return "frontEnd/index";
     }
 
+    @GetMapping("/login")
+    public String memberLogin() {
+
+        return "frontEnd/login";
+    }
+
     @ResponseBody
-    @PostMapping("/login/{MemberId}")
+    @PostMapping("/loginAPI")
     public Members MemberLogin(@RequestBody Members Member){
+//    public String memberLoginAPI(@RequestBody Members Member){
         System.out.println(Member);
 
         Members member = MembersFrontEndServiceImpl.findMemberById(Member.getMemberid());
-
         return member;
+
     }
 
 
     @ResponseBody
     @PostMapping("/insert/{MemberId}")
-    public Members MemberRegister(@RequestBody Members Member) {
+    public Members memberRegister(@RequestBody Members Member) {
 
         Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
