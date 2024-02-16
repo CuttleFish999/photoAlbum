@@ -14,6 +14,18 @@ public class MembersFrontEndServiceImpl implements MembersFrontEndService {
     @Autowired
     private MembersFrontEndRepository membersFrontEndRepository;
 
+
+    @Override
+    public Members findIdByAccountAndPassword(Members member) {
+
+        Optional<Members> memberFind = Optional.ofNullable(membersFrontEndRepository.findByAccount(member.getAccount()));
+        if(memberFind.isPresent()){
+            System.out.println("找到帳號");
+        }
+        System.out.println("查無此帳號");
+        return null;
+    }
+
     @Override
     public Members findMemberById(Integer memberId) {
 

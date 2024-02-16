@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MembersFrontEndRepository extends JpaRepository<Members, Integer> {
+    Members findByAccount(String account);
 }

@@ -34,14 +34,18 @@ public class MembersFrontEnd {
         return "frontEnd/login";
     }
 
-    @ResponseBody
+//    @ResponseBody
     @PostMapping("/loginAPI")
-    public Members MemberLogin(@RequestBody Members Member){
+    public Members MemberLogin(@ModelAttribute Members Member){
 //    public String memberLoginAPI(@RequestBody Members Member){
         System.out.println(Member);
+        Members member = MembersFrontEndServiceImpl.findIdByAccountAndPassword(Member);
 
-        Members member = MembersFrontEndServiceImpl.findMemberById(Member.getMemberid());
-        return member;
+        if (member != null){
+            return member;
+        }
+
+        return null;
 
     }
 
