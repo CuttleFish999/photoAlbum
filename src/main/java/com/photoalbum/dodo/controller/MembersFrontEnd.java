@@ -30,10 +30,9 @@ public class MembersFrontEnd {
 
     @ResponseBody
     @PostMapping("/insert/{MemberId}")
-    public Members insertPhoto(@RequestBody Members MemberId) {
+    public Members MemberRegister(@RequestBody Members Member) {
 
-        System.out.println(MemberId);
-        Members memeber = MembersFrontEndServiceImpl.findMembersById(MemberId.getMemberid());
+        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
         return memeber;
     }

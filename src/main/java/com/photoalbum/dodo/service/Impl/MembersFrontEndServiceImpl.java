@@ -15,9 +15,16 @@ public class MembersFrontEndServiceImpl implements MembersFrontEndService {
     private MembersFrontEndRepository membersFrontEndRepository;
 
     @Override
-    public Members findMembersById(Integer MmeberId) {
+    public Members createAnAccount(Members member) {
+        System.out.println(member.getMemberid());
+        Optional<Members> Member = membersFrontEndRepository.findById(member.getMemberid());
 
-        Optional<Members> Member = membersFrontEndRepository.findById(MmeberId);
+        if (Member.isPresent()){
+            System.out.println(member.getMemberid() + " 此帳號已經有註冊過了喔!");
+        }else{
+            membersFrontEndRepository.save(member);
+            System.out.println(member.getMemberid() + " 此帳號註冊成功");
+        }
 
         return Member.orElse(null);
     }
