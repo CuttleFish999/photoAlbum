@@ -29,6 +29,17 @@ public class MembersFrontEnd {
     }
 
     @ResponseBody
+    @PostMapping("/login/{MemberId}")
+    public Members MemberLogin(@RequestBody Members Member){
+        System.out.println(Member);
+
+        Members member = MembersFrontEndServiceImpl.findMemberById(Member.getMemberid());
+
+        return member;
+    }
+
+
+    @ResponseBody
     @PostMapping("/insert/{MemberId}")
     public Members MemberRegister(@RequestBody Members Member) {
 

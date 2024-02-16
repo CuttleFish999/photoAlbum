@@ -4,6 +4,6 @@ import com.photoalbum.dodo.model.Members;
 
 public interface MembersFrontEndService {
 
-//    Members findMembersById(Integer MmeberId);
+    Members findMemberById(Integer memberId);
     Members createAnAccount(Members MemberId);
 }
