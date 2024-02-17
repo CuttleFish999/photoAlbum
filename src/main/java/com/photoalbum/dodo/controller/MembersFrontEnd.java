@@ -51,7 +51,7 @@ public class MembersFrontEnd {
             session.setAttribute("loggedInMember",member);
             return "redirect:";
         }
-        return "redirect:frontEnd/login";
+        return "redirect:/login";
     }
 
 
