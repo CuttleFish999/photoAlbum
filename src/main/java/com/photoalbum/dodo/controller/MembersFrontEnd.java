@@ -54,7 +54,7 @@ public class MembersFrontEnd {
         System.out.println(member != null);
         if (member != null){
             session.setAttribute("loggedInMember",member);
-            return "redirect:";
+            return "redirect:/home";
         }
         return "redirect:/login";
     }
