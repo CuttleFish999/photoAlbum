@@ -25,7 +25,7 @@ public class MembersFrontEnd {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/home")
     public String index(Model model) {
 
 //        membersServiceImpl.getAllMembers();

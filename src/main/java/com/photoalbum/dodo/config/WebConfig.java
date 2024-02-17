@@ -19,8 +19,15 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/loginAPI")
+                .excludePathPatterns("/register")
                 .excludePathPatterns("/index")
-                .excludePathPatterns("/register");
+                .excludePathPatterns("/css/frontEnd/index.css")
+                .excludePathPatterns("/image/frontEnd/CLT-L290332.JPG")
+                .excludePathPatterns("/image/frontEnd/CLT-L29044.JPG")
+                .excludePathPatterns("/image/frontEnd/new.jpg")
+                .excludePathPatterns("/icon/frontEnd/index/images.webp")
+                .excludePathPatterns("/icon/frontEnd/index/sun.webp")
+                .excludePathPatterns("/js/frontEnd/index.js");
 
     }
 }

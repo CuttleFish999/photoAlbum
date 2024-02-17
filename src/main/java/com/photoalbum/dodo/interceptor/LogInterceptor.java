@@ -14,9 +14,14 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (request.getSession().getAttribute("loggedInMember") == null) {
-            // 如果沒有，重定向到登入頁面
-            response.sendRedirect(request.getContextPath() + "/login");
-            return false; // 中斷後續攔截器的執行
+            String requestURI = request.getRequestURI();
+            System.out.println(requestURI);
+            // 檢查是否是index頁面或登入頁面
+            if (!requestURI.endsWith("/home") && !requestURI.endsWith("/login")) {
+                // 如果不是，且用戶未登入，則重定向到登入頁面
+                response.sendRedirect(request.getContextPath() + "/login");
+                return false; // 中斷後續攔截器的執行
+            }
         }
 
         // 如果已經登入，則繼續執行後續的攔截器或請求處理
