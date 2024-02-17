@@ -21,7 +21,7 @@ public class MembersFrontEndServiceImpl implements MembersFrontEndService {
         Optional<Members> memberFind = Optional.ofNullable(membersFrontEndRepository.findByAccount(member.getAccount()));
         if(memberFind.isPresent()){
             System.out.println("找到帳號");
-            return null;
+            return memberFind.get();
         }
         System.out.println("查無此帳號");
         return null;
