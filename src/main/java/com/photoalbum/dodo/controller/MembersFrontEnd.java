@@ -38,6 +38,11 @@ public class MembersFrontEnd {
 
         return "frontEnd/login";
     }
+    @GetMapping("/register")
+    public String memberRegister() {
+
+        return "frontEnd/register";
+    }
 
 //    @ResponseBody
     @PostMapping("/loginAPI")

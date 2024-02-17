@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>註冊頁面</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: .5rem;
+            color: #666;
+        }
+        input[type=text],
+        input[type=password],
+        input[type=email],
+        input[type=tel],
+        input[type=date],
+        input[type=datetime-local],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[type=text]:focus,
+        .form-group input[type=password]:focus,
+        .form-group input[type=email]:focus,
+        .form-group input[type=tel]:focus,
+        .form-group input[type=date]:focus,
+        .form-group input[type=datetime-local]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #007bff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<form action="/submit-your-form" method="post">
+    <label for="account">帳號:</label>
+    <input type="text" id="account" name="account" required><br>
+
+    <label for="password">密碼:</label>
+    <input type="password" id="password" name="password" required><br>
+
+    <label for="name">姓名:</label>
+    <input type="text" id="name" name="name"><br>
+
+    <label for="email">電子郵件:</label>
+    <input type="email" id="email" name="email"><br>
+
+    <label for="birthday">生日:</label>
+    <input type="date" id="birthday" name="birthday"><br>
+
+    <label for="phonenumber">手機號碼:</label>
+    <input type="tel" id="phonenumber" name="phonenumber"><br>
+
+    <label for="otherphonenumber">其他電話:</label>
+    <input type="tel" id="otherphonenumber" name="otherphonenumber"><br>
+
+    <label for="homenumber">家庭電話:</label>
+    <input type="tel" id="homenumber" name="homenumber"><br>
+
+    <label for="gender">性別:</label>
+    <select id="gender" name="gender">
+        <option value="male">男</option>
+        <option value="female">女</option>
+        <option value="other">其他</option>
+    </select><br>
+
+    <label for="avatar">頭像 (Hex):</label>
+    <input type="text" id="avatar" name="avatar"><br>
+
+    <label for="createtime">創建時間:</label>
+    <input type="datetime-local" id="createtime" name="createtime"><br>
+
+    <label for="updatetime">更新時間:</label>
+    <input type="datetime-local" id="updatetime" name="updatetime"><br>
+
+    <label for="lastonlinetime">最後在線時間:</label>
+    <input type="datetime-local" id="lastonlinetime" name="lastonlinetime"><br>
+
+    <button type="button"><a href="index.html">登入</a></button>
+    <button type="submit" >註冊</button>
+</form>
+</body>
+</html>
