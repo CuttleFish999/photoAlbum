@@ -7,12 +7,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
 @Component
 public class LogInterceptor implements HandlerInterceptor {
-    long startTime;
+    private static final String START_TIME = "startTime";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        long startTime = System.currentTimeMillis();
+        request.setAttribute(START_TIME, startTime);
         if (request.getSession().getAttribute("loggedInMember") == null) {
             String requestURI = request.getRequestURI();
             System.out.println(requestURI);
@@ -35,8 +39,15 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        long endTime = System.currentTimeMillis();
-        long executeTime = endTime - startTime;
-        System.out.println("請求處理時間：" + executeTime + "ms");
+        Long startTime = (Long) request.getAttribute(START_TIME);
+        if (startTime != null) {
+            long endTime = System.currentTimeMillis();
+            long executeTime = endTime - startTime;
+            String executeTimeSeconds = String.format("%.5f", executeTime / 1000.0);
+            System.out.println("請求處理時間：" + executeTimeSeconds + "秒");
+        } else {
+            System.out.println("請求開始時間未設定，無法計算處理時間。");
+        }
     }
+
 }
