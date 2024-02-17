@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/register")
                 .excludePathPatterns("/index")
                 .excludePathPatterns("/css/frontEnd/index.css")
+                .excludePathPatterns("/css/frontEnd/com/nav.css")
                 .excludePathPatterns("/image/frontEnd/CLT-L290332.JPG")
                 .excludePathPatterns("/image/frontEnd/CLT-L29044.JPG")
                 .excludePathPatterns("/image/frontEnd/new.jpg")

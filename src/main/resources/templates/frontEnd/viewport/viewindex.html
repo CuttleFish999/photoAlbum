@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>簡易相簿瀏覽網站</title>
+    <link rel="stylesheet" th:href="@{/css/frontEnd/com/nav.css}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -35,16 +36,10 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" href="#">首頁</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">上傳照片</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">相簿</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">設置</a></li>
-            </ul>
-        </div>
+<header th:replace="frontEnd/com/nav :: nav">
+
+</header>
+
         <div class="col-md-9">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="搜索照片">
