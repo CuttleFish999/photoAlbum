@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -62,6 +63,7 @@ public class MembersFrontEnd {
         System.out.println(member != null);
         if (member != null) {
             session.setAttribute("loggedInMember", member);
+            System.out.println("sessionMemId: " + member.getMemberid());
             return "redirect:/home";
         }
         return "redirect:/login";
@@ -97,9 +99,16 @@ public class MembersFrontEnd {
     @ResponseBody
     @PostMapping("/insertPhoto/{MemberId}")
 //    public Members insertPhoto(@RequestBody Members Member) {
-    public String insertPhotoAPI(@RequestBody Photos photo) {
-
+    public String insertPhotoAPI(@RequestBody Photos photo,
+                                 HttpSession session,
+                                 Model model) {
+        Members loggedInMember = (Members) session.getAttribute("loggedInMember");
+        System.out.println(photo.getMemberid());
+        photo.setMemberid(loggedInMember.getMemberid());
+        System.out.println(photo.getMemberid());
+        model.addAttribute(loggedInMember);
         photosFrontEndServiceImpl.InsertPhoto(photo);
+
 //        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
         return "/frontEnd/viewport/viewindex";
