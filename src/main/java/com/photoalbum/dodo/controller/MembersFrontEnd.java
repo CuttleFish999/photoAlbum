@@ -2,7 +2,9 @@ package com.photoalbum.dodo.controller;
 
 
 import com.photoalbum.dodo.model.Members;
+import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
+import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,17 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("")
 public class MembersFrontEnd {
     @Autowired
     private MembersFrontEndServiceImpl MembersFrontEndServiceImpl;
+
+    @Autowired
+    private PhotosFrontEndServiceImpl photosFrontEndServiceImpl;
 
     @GetMapping("/test")
     public String test(Model model) {
@@ -70,11 +77,18 @@ public class MembersFrontEnd {
 
 //  viewportAPI
 
-    @GetMapping("/viewport")
-    public String viewportHome(Model model) {
+        @GetMapping("/viewport")
+        public String viewportHome(Model model,
+                                   HttpSession session) {
+            Members member = (Members) session.getAttribute("loggedInMember");
 
 
+            List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
 
-        return "/frontEnd/viewport/viewindex";
-    }
+
+            model.addAttribute("photos",photos);
+
+
+            return "/frontEnd/viewport/viewindex";
+        }
 }

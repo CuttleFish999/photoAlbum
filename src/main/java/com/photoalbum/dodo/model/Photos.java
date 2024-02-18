@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Photos")
+@Table(name = "photos")
 public class Photos {
 
     @Id
@@ -14,7 +14,7 @@ public class Photos {
     @Column(name = "photoid")
     private Integer photoid;                //照片編號
 
-    @Column(name = "photoid")
+    @Column(name = "memberid")
     private Integer memberid;               //會員編號
     @Column(name = "title")
     private String title;                  //標題
