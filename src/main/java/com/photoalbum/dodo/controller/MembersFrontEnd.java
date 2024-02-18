@@ -45,22 +45,23 @@ public class MembersFrontEnd {
 
         return "frontEnd/login";
     }
+
     @GetMapping("/register")
     public String memberRegister() {
 
         return "frontEnd/register";
     }
 
-//    @ResponseBody
+    //    @ResponseBody
     @PostMapping("/loginAPI")
     public String MemberLogin(@ModelAttribute Members Member,
-                                                HttpSession session){
+                              HttpSession session) {
 //    public String memberLoginAPI(@RequestBody Members Member){
         System.out.println(Member);
         Members member = MembersFrontEndServiceImpl.findIdByAccountAndPassword(Member);
         System.out.println(member != null);
-        if (member != null){
-            session.setAttribute("loggedInMember",member);
+        if (member != null) {
+            session.setAttribute("loggedInMember", member);
             return "redirect:/home";
         }
         return "redirect:/login";
@@ -77,19 +78,31 @@ public class MembersFrontEnd {
 
 //  viewportAPI
 
-        @GetMapping("/viewport")
-        public String viewportHome(Model model,
-                                   HttpSession session) {
-            Members member = (Members) session.getAttribute("loggedInMember");
-            System.out.println(member);
+    @GetMapping("/viewport")
+    public String viewportHome(Model model,
+                               HttpSession session) {
+        Members member = (Members) session.getAttribute("loggedInMember");
+        System.out.println(member);
 
-            List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
+        List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
 
 //            System.out.println(photos);
 
-            model.addAttribute("photos",photos);
+        model.addAttribute("photos", photos);
 
 
-            return "/frontEnd/viewport/viewindex";
-        }
+        return "/frontEnd/viewport/viewindex";
+    }
+
+    @ResponseBody
+    @PostMapping("/insertPhoto/{MemberId}")
+//    public Members insertPhoto(@RequestBody Members Member) {
+//    public String insertPhoto(@RequestBody Members Member ,
+    public String insertPhoto(@RequestBody Photos photo) {
+
+        photosFrontEndServiceImpl.InsertPhoto(photo);
+//        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
+
+        return "photo insert ok";
+    }
 }
