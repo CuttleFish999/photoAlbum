@@ -69,6 +69,13 @@ public class MembersFrontEnd {
         return "redirect:/login";
     }
 
+    @GetMapping("/signOutAPI")
+    public String SignOut(HttpSession session) {
+        session.invalidate();
+
+        return "redirect:frontEnd/index";
+    }
+
     @ResponseBody
     @PostMapping("/insert/{MemberId}")
     public Members memberRegister(@RequestBody Members Member) {

@@ -10,7 +10,7 @@
 
                     <a class="nav-link" th:if="${session.loggedInMember != null}" th:text="'會員: ' + ${session.loggedInMember.name}" href="#"></a>
                     <img th:if="${session.loggedInMember != null}" th:src="${session.loggedInMember.avatar}" onerror="this.style.display='none'">
-                    <a class="nav-link" th:if="${session.loggedInMember != null}" href="/logout">登出</a>
+                    <a class="nav-link" th:if="${session.loggedInMember != null}" th:href="@{/signOutAPI}">登出</a>
                 </nav>
             </div>
         </div>
