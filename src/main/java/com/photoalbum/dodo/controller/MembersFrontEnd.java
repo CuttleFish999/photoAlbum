@@ -59,7 +59,6 @@ public class MembersFrontEnd {
         return "redirect:/login";
     }
 
-
     @ResponseBody
     @PostMapping("/insert/{MemberId}")
     public Members memberRegister(@RequestBody Members Member) {
@@ -67,5 +66,15 @@ public class MembersFrontEnd {
         Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
         return memeber;
+    }
+
+//  viewportAPI
+
+    @GetMapping("/viewport")
+    public String viewportHome(Model model) {
+
+
+
+        return "/frontEnd/viewport/viewindex";
     }
 }
