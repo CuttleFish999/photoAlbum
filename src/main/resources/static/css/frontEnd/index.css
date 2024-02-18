@@ -7,7 +7,7 @@ body, html {
 }
 
 nav {
-    background-color: #007bff;
+    /*background-color: #007bff;*/
     color: white;
     padding: 12px 20px;
     display: flex;
