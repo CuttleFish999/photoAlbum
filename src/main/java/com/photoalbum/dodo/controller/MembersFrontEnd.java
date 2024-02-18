@@ -81,10 +81,11 @@ public class MembersFrontEnd {
         public String viewportHome(Model model,
                                    HttpSession session) {
             Members member = (Members) session.getAttribute("loggedInMember");
-
+            System.out.println(member);
 
             List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
 
+//            System.out.println(photos);
 
             model.addAttribute("photos",photos);
 
