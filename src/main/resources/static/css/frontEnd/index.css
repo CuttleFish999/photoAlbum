@@ -6,14 +6,7 @@ body, html {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-nav {
-    /*background-color: #007bff;*/
-    color: white;
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 
 nav #logo {
     font-weight: bold;

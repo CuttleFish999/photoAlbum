@@ -28,7 +28,7 @@ public class MembersFrontEnd {
 
     @GetMapping("/test")
     public String test(Model model) {
-        return "/frontEnd/viewport/viewindex";
+        return "/frontEnd/viewport/uploadPhoto";
     }
 
 
@@ -97,12 +97,11 @@ public class MembersFrontEnd {
     @ResponseBody
     @PostMapping("/insertPhoto/{MemberId}")
 //    public Members insertPhoto(@RequestBody Members Member) {
-//    public String insertPhoto(@RequestBody Members Member ,
     public String insertPhoto(@RequestBody Photos photo) {
 
         photosFrontEndServiceImpl.InsertPhoto(photo);
 //        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
-        return "photo insert ok";
+        return "/frontEnd/viewport/viewindex";
     }
 }
