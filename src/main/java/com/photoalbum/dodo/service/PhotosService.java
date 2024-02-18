@@ -9,4 +9,6 @@ import java.util.List;
 public interface PhotosService {
 
     List<Photos> getAllPhotos(Members member);
+
+    Photos InsertPhoto(Photos photo);
 }

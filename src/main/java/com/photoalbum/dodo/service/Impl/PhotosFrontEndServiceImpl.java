@@ -18,4 +18,9 @@ public class PhotosFrontEndServiceImpl implements PhotosService {
     public List<Photos> getAllPhotos(Members member) {
         return photoFrontEndRepository.findAll();
     }
+
+    @Override
+    public Photos InsertPhoto(Photos photo) {
+        return photoFrontEndRepository.save(photo);
+    }
 }

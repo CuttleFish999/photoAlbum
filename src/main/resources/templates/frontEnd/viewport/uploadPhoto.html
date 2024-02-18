@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload</title>
+    <link rel="stylesheet" th:href="@{/css/frontEnd/com/nav.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .upload-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .btn {
+            border: 2px solid #007bff;
+            color: white;
+            background-color: #007bff;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .upload-instructions {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        #updateImg {
+            max-width: 50%;
+            max-height: 20vh;
+            margin-top: 20px;
+        }
+        .action-buttons {
+            display: none; /* Initially hide the action buttons */
+        }
+    </style>
+</head>
+<body>
+
+<header th:replace="frontEnd/com/nav :: nav"></header>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<div class="upload-container">
+    <div class="upload-btn-wrapper">
+        <button class="btn">上傳圖片</button>
+        <input type="file" id="file-upload" name="myfile" onchange="displayImage(this)" />
+    </div>
+    <div class="upload-instructions">點選按鈕上傳圖片</div>
+    <div id="imageDisplay"></div>
+    <div class="action-buttons">
+        <button class="btn btn-success" onclick="confirmUpload()">確定上傳</button>
+        <button class="btn btn-danger" onclick="cancelUpload()">取消</button>
+    </div>
+</div>
+
+<script>
+    function displayImage(input) {
+        if (input.files && input.files[0]) {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                let imageElement = document.createElement('img');
+                imageElement.src = e.target.result;
+                imageElement.id = "updateImg";
+                document.getElementById('imageDisplay').innerHTML = '';
+                document.getElementById('imageDisplay').appendChild(imageElement);
+                // Show action buttons
+                document.querySelector('.action-buttons').style.display = 'block';
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function confirmUpload() {
+        let fileInput = document.getElementById('file-upload');
+        let file = fileInput.files[0];
+        let formData = new FormData();
+        formData.append("file", file);
+
+
+        $.ajax({
+            url: '/insertPhoto/{MemberId}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert('圖片已成功上傳。');
+                window.location.href = data;
+            },
+            error: function (xhr, status, error) {
+                alert('上傳失敗，請重試。');
+            }
+        });
+    }
+
+
+    function cancelUpload() {
+        // Clear the image preview and file input
+        document.getElementById('imageDisplay').innerHTML = '';
+        document.querySelector('input[type=file]').value = '';
+        // Hide action buttons
+        document.querySelector('.action-buttons').style.display = 'none';
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
