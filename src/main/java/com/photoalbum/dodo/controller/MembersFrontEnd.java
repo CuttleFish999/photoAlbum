@@ -97,11 +97,13 @@ public class MembersFrontEnd {
     @ResponseBody
     @PostMapping("/insertPhoto/{MemberId}")
 //    public Members insertPhoto(@RequestBody Members Member) {
-    public String insertPhoto(@RequestBody Photos photo) {
+    public String insertPhotoAPI(@RequestBody Photos photo) {
 
         photosFrontEndServiceImpl.InsertPhoto(photo);
 //        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
 
         return "/frontEnd/viewport/viewindex";
     }
+
+
 }
