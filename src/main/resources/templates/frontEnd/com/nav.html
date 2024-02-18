@@ -2,16 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <nav class="nav justify-content-center"> <!-- 居中導航項目 -->
+                <nav class="nav justify-content-center">
                     <a class="nav-link active" th:href="@{/home}">首頁</a>
                     <a class="nav-link" href="#">上傳照片</a>
                     <a class="nav-link" th:href="@{/viewport}">相簿</a>
                     <a class="nav-link" href="#">設置</a>
 
-                    <a class="nav-link" th:text="'會員: ' + ${session.loggedInMember.name}" href="#">會員
-                        <img src="https://via.placeholder.com/30x30">
-                    </a>
-
+                    <a class="nav-link" th:if="${session.loggedInMember != null}" th:text="'會員: ' + ${session.loggedInMember.name}" href="#"></a>
+                    <img th:if="${session.loggedInMember != null}" th:src="${session.loggedInMember.avatar}" onerror="this.style.display='none'">
+                    <a class="nav-link" th:if="${session.loggedInMember != null}" href="/logout">登出</a>
                 </nav>
             </div>
         </div>
