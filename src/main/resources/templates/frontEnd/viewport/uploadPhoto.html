@@ -59,11 +59,12 @@
 <body>
 
 <header th:replace="frontEnd/com/nav :: nav"></header>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <div class="upload-container">
     <div class="upload-btn-wrapper">
         <button class="btn">Upload a photo</button>
-        <input type="file" name="myfile" onchange="displayImage(this)" />
+        <input type="file" id="file-upload" name="myfile" onchange="displayImage(this)" />
     </div>
     <div class="upload-instructions">點選按鈕上傳圖片</div>
     <div id="imageDisplay"></div>
@@ -93,9 +94,28 @@
     }
 
     function confirmUpload() {
-        // Logic to handle the file upload to the server
-        alert('圖片已確定上傳。'); // Placeholder for actual upload logic
+        let fileInput = document.getElementById('file-upload');
+        let file = fileInput.files[0];
+        let formData = new FormData();
+        formData.append("file", file);
+
+
+        $.ajax({
+            url: '/insertPhoto/{MemberId}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert('圖片已成功上傳。');
+                window.location.href = data;
+            },
+            error: function (xhr, status, error) {
+                alert('上傳失敗，請重試。');
+            }
+        });
     }
+
 
     function cancelUpload() {
         // Clear the image preview and file input
