@@ -112,9 +112,7 @@ public class MembersFrontEnd {
     }
 
     @PostMapping("/insertPhoto/")
-    public ResponseEntity<?> insertPhotoAPI(@RequestBody String photoDataJSON,
-                                 HttpSession session,
-                                 Model model) {
+    public ResponseEntity<?> insertPhotoAPI(@RequestBody String photoDataJSON, HttpSession session) {
         Members loggedInMember = (Members) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户未登录");
@@ -129,20 +127,15 @@ public class MembersFrontEnd {
             String base64Image = photoData.get("file");
             base64Image = base64Image.substring(base64Image.indexOf(",") + 1); // 去除Base64前綴
 
-            // 解碼 Base64 字符串並寫入文件系統
+            // 解碼 Base64 字符串獲取二進制數據
             byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            Path directory = Paths.get("/path/to/your/directory/");
-            Files.createDirectories(directory); // 確保目錄存在
-            Path filePath = directory.resolve("uploaded_image.jpg");
-            Files.write(filePath, imageBytes);
 
             // 使用解析後的數據創建 Photos 對象
             Photos photo = new Photos();
             photo.setMemberid(loggedInMember.getMemberid());
             photo.setTitle(photoData.get("title"));
             photo.setDescription(photoData.get("description"));
-            photo.setFilepath(filePath.toString());
-            // ...設置 photo 對象的其他屬性...
+            photo.setFilepath(imageBytes); // 直接將二進制數據設置到對應的屬性
 
             // 調用 service 方法保存 photo 對象
             photosFrontEndServiceImpl.InsertPhoto(photo);
@@ -153,6 +146,7 @@ public class MembersFrontEnd {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("圖片上傳失敗");
         }
     }
+
 
     @GetMapping("/upLoadDate")
     public String upLoadDate(Model model) {
