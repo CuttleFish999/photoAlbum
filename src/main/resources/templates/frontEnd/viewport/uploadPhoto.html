@@ -89,8 +89,10 @@
     <div class="upload-instructions">點選按鈕上傳圖片
         <label class="uploadLabel" for="memberID">會員:</label>
             <input id="memberID" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}" disabled>
+
         <label class="uploadLabel" for="photoTitle">照片標題:</label>
-            <input id="photoTitle" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+        <input id="photoTitle" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入標題'}">
+
         <label class="uploadLabel" for="photoDescription">照片描述:</label>
             <input id="photoDescription" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
     </div>
