@@ -123,6 +123,9 @@
 
     function confirmUpload() {
         let fileInput = document.getElementById('file-upload');
+        const memberID = document.getElementById("memberID").value;
+
+
         let file = fileInput.files[0];
         let reader = new FileReader();
 
@@ -130,7 +133,7 @@
             let base64File = e.target.result;
 
             let jsonData = {
-                memberid: 100,
+                memberid: memberID,
                 title: "範例標題",
                 description: "這是一個照片的範例描述。",
                 filepath: "/image/frontEnd/photo/30x30.png",
