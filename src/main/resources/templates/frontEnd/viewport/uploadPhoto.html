@@ -94,7 +94,20 @@
         <input id="photoTitle" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入標題'}">
 
         <label class="uploadLabel" for="photoDescription">照片描述:</label>
-            <input id="photoDescription" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+            <input id="photoDescription" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入照片描述'}">
+
+        <label class="uploadLabel" for="filepath">照片路徑:</label>
+            <input id="filepath" class="upLoadInput" type="text" value="/image/frontEnd/photo/400x300.png">
+
+        <label class="uploadLabel" for="thumbnailpath">照片縮圖路徑:</label>
+            <input id="thumbnailpath" class="upLoadInput" type="text" value="/image/frontEnd/photo/30x30.png">
+<!--        -->
+        <label class="uploadLabel" for="uploadedat">上傳時間:</label>
+            <input id="uploadedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00">
+
+        <label class="uploadLabel" for="updatedat">更新時間:</label>
+            <input id="updatedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00">
+
     </div>
     <div id="imageDisplay"></div>
     <div class="action-buttons">
@@ -124,10 +137,15 @@
     }
 
     function confirmUpload() {
-        let fileInput = document.getElementById('file-upload');
+        const fileInput = document.getElementById('file-upload');
         const memberID = document.getElementById("memberID").value;
         const photoTitle = document.getElementById("photoTitle").value;
         const photoDescription = document.getElementById("photoDescription").value;
+
+        const filepath = document.getElementById("filepath").value;
+        const thumbnailpath = document.getElementById("thumbnailpath").value;
+        const uploadedat = document.getElementById("uploadedat").value;
+        const updatedat = document.getElementById("updatedat").value;
 
 
         let file = fileInput.files[0];
@@ -140,10 +158,10 @@
                 memberid: memberID,
                 title: photoTitle,
                 description: photoDescription,
-                filepath: "/image/frontEnd/photo/30x30.png",
-                thumbnailpath: "/image/frontEnd/photo/30x30.png",
-                uploadedat: "2024-02-13 12:00:00",
-                updatedat: "2024-02-13 12:00:00",
+                filepath: filepath,
+                thumbnailpath: thumbnailpath,
+                uploadedat: uploadedat,
+                updatedat: updatedat,
                 file: base64File
             };
 
