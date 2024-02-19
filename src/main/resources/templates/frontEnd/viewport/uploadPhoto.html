@@ -186,7 +186,8 @@
                 data: JSON.stringify(jsonData),
                 success: function (data) {
                     alert('圖片已成功上傳。');
-                    window.location.href = data;
+                    // window.location.href = data;
+                    window.location.href = '/viewport';
                 },
                 error: function (xhr, status, error) {
                     alert('上傳失敗，請重試。');
