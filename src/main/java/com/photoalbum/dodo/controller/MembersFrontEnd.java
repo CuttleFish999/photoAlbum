@@ -104,7 +104,7 @@ public class MembersFrontEnd {
     }
 
     @ResponseBody
-    @PostMapping("/insertPhoto/{MemberId}")
+    @PostMapping("/insertPhoto/")
 //    public Members insertPhoto(@RequestBody Members Member) {
     public String insertPhotoAPI(@RequestBody Photos photo,
                                  HttpSession session,
@@ -121,5 +121,9 @@ public class MembersFrontEnd {
         return "/frontEnd/viewport/viewindex";
     }
 
+    @GetMapping("/upLoadDate")
+    public String upLoadDate(Model model) {
 
+        return "/frontEnd/viewport/uploadPhoto";
+    }
 }

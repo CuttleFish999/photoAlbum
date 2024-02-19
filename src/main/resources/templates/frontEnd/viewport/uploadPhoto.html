@@ -12,6 +12,7 @@
             height: 100vh;
             background-color: #f0f2f5;
         }
+
         .upload-container {
             background-color: white;
             padding: 20px;
@@ -19,11 +20,13 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .upload-btn-wrapper {
             position: relative;
             overflow: hidden;
             display: inline-block;
         }
+
         .btn {
             border: 2px solid #007bff;
             color: white;
@@ -34,6 +37,7 @@
             font-weight: bold;
             margin: 5px;
         }
+
         input[type=file] {
             font-size: 100px;
             position: absolute;
@@ -41,18 +45,34 @@
             top: 0;
             opacity: 0;
         }
+
         .upload-instructions {
             margin-top: 10px;
             font-size: 14px;
             color: #555;
         }
+
         #updateImg {
             max-width: 50%;
             max-height: 20vh;
             margin-top: 20px;
         }
+
         .action-buttons {
             display: none; /* Initially hide the action buttons */
+        }
+
+        .upload-instructions{
+            display: flex;
+            flex-direction: column;
+         }
+
+        .uploadLabel{
+            font-size: 1.8em;
+        }
+        .upLoadInput{
+            text-align: center;
+            font-size: 1.8em;
         }
     </style>
 </head>
@@ -64,11 +84,19 @@
 <div class="upload-container">
     <div class="upload-btn-wrapper">
         <button class="btn">上傳圖片</button>
-        <input type="file" id="file-upload" name="myfile" onchange="displayImage(this)" />
+        <input type="file" id="file-upload" name="myfile" onchange="displayImage(this)"/>
     </div>
-    <div class="upload-instructions">點選按鈕上傳圖片</div>
+    <div class="upload-instructions">點選按鈕上傳圖片
+        <label class="uploadLabel" for="memberID">會員:</label>
+            <input id="memberID" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}" disabled>
+        <label class="uploadLabel" for="photoTitle">照片標題:</label>
+            <input id="photoTitle" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+        <label class="uploadLabel" for="photoDescription">照片描述:</label>
+            <input id="photoDescription" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+    </div>
     <div id="imageDisplay"></div>
     <div class="action-buttons">
+
         <button class="btn btn-success" onclick="confirmUpload()">確定上傳</button>
         <button class="btn btn-danger" onclick="cancelUpload()">取消</button>
     </div>
@@ -101,7 +129,7 @@
 
 
         $.ajax({
-            url: '/insertPhoto/{MemberId}',
+            url: '/insertPhoto/',
             type: 'POST',
             data: formData,
             processData: false,
