@@ -124,6 +124,8 @@
     function confirmUpload() {
         let fileInput = document.getElementById('file-upload');
         const memberID = document.getElementById("memberID").value;
+        const photoTitle = document.getElementById("photoTitle").value;
+        const photoDescription = document.getElementById("photoDescription").value;
 
 
         let file = fileInput.files[0];
@@ -134,8 +136,8 @@
 
             let jsonData = {
                 memberid: memberID,
-                title: "範例標題",
-                description: "這是一個照片的範例描述。",
+                title: photoTitle,
+                description: photoDescription,
                 filepath: "/image/frontEnd/photo/30x30.png",
                 thumbnailpath: "/image/frontEnd/photo/30x30.png",
                 uploadedat: "2024-02-13 12:00:00",
