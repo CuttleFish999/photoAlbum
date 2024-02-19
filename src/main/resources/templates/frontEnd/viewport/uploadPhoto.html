@@ -74,6 +74,10 @@
             text-align: center;
             font-size: 1.8em;
         }
+        input::placeholder {
+            color: red; /* Change 'red' to your desired color */
+        }
+
     </style>
 </head>
 <body>
@@ -89,10 +93,25 @@
     <div class="upload-instructions">點選按鈕上傳圖片
         <label class="uploadLabel" for="memberID">會員:</label>
             <input id="memberID" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}" disabled>
+
         <label class="uploadLabel" for="photoTitle">照片標題:</label>
-            <input id="photoTitle" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+        <input id="photoTitle" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入標題'}">
+
         <label class="uploadLabel" for="photoDescription">照片描述:</label>
-            <input id="photoDescription" class="upLoadInput" type="text" th:value="${session.loggedInMember.getMemberid()}">
+            <input id="photoDescription" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入照片描述'}">
+
+        <label class="uploadLabel" for="filepath">照片路徑:</label>
+            <input id="filepath" class="upLoadInput" type="text" value="/image/frontEnd/photo/400x300.png" disabled>
+
+        <label class="uploadLabel" for="thumbnailpath">照片縮圖路徑:</label>
+            <input id="thumbnailpath" class="upLoadInput" type="text" value="/image/frontEnd/photo/30x30.png" disabled>
+<!--        -->
+        <label class="uploadLabel" for="uploadedat">上傳時間:</label>
+            <input id="uploadedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00" disabled>
+
+        <label class="uploadLabel" for="updatedat">更新時間:</label>
+            <input id="updatedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00" disabled>
+
     </div>
     <div id="imageDisplay"></div>
     <div class="action-buttons">
@@ -103,6 +122,16 @@
 </div>
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let now = new Date();
+        let dateTime = now.toISOString().slice(0, 19).replace('T', ' ');
+
+        document.getElementById('uploadedat').value = dateTime;
+        document.getElementById('updatedat').value = dateTime;
+    });
+    
+    
     function displayImage(input) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -122,27 +151,53 @@
     }
 
     function confirmUpload() {
-        let fileInput = document.getElementById('file-upload');
+        const fileInput = document.getElementById('file-upload');
+        const memberID = document.getElementById("memberID").value;
+        const photoTitle = document.getElementById("photoTitle").value;
+        const photoDescription = document.getElementById("photoDescription").value;
+
+        const filepath = document.getElementById("filepath").value;
+        const thumbnailpath = document.getElementById("thumbnailpath").value;
+        const uploadedat = document.getElementById("uploadedat").value;
+        const updatedat = document.getElementById("updatedat").value;
+
+
         let file = fileInput.files[0];
-        let formData = new FormData();
-        formData.append("file", file);
+        let reader = new FileReader();
 
+        reader.onload = function(e) {
+            let base64File = e.target.result;
 
-        $.ajax({
-            url: '/insertPhoto/',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                alert('圖片已成功上傳。');
-                window.location.href = data;
-            },
-            error: function (xhr, status, error) {
-                alert('上傳失敗，請重試。');
-            }
-        });
+            let jsonData = {
+                memberid: memberID,
+                title: photoTitle,
+                description: photoDescription,
+                filepath: filepath,
+                thumbnailpath: thumbnailpath,
+                uploadedat: uploadedat,
+                updatedat: updatedat,
+                file: base64File
+            };
+
+            $.ajax({
+                url: '/insertPhoto/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jsonData),
+                success: function (data) {
+                    alert('圖片已成功上傳。');
+                    window.location.href = data;
+                },
+                error: function (xhr, status, error) {
+                    alert('上傳失敗，請重試。');
+                }
+            });
+        };
+
+        // 讀取檔案為Base64
+        reader.readAsDataURL(file);
     }
+
 
 
     function cancelUpload() {
