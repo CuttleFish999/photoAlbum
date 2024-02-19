@@ -152,24 +152,26 @@
 
     function confirmUpload() {
         const fileInput = document.getElementById('file-upload');
+        if (fileInput.files.length === 0) {
+            alert('請選擇一個文件。');
+            return; // 如果没有选择文件，提前退出函数
+        }
+
         const memberID = document.getElementById("memberID").value;
         const photoTitle = document.getElementById("photoTitle").value;
         const photoDescription = document.getElementById("photoDescription").value;
-
         const filepath = document.getElementById("filepath").value;
         const thumbnailpath = document.getElementById("thumbnailpath").value;
         const uploadedat = document.getElementById("uploadedat").value;
         const updatedat = document.getElementById("updatedat").value;
-
 
         let file = fileInput.files[0];
         let reader = new FileReader();
 
         reader.onload = function(e) {
             let base64File = e.target.result;
-
             let jsonData = {
-                memberid: memberID,
+                memberID: memberID,
                 title: photoTitle,
                 description: photoDescription,
                 filepath: filepath,
@@ -186,7 +188,7 @@
                 data: JSON.stringify(jsonData),
                 success: function (data) {
                     alert('圖片已成功上傳。');
-                    window.location.href = data;
+                    // window.location.href = '/viewport';
                 },
                 error: function (xhr, status, error) {
                     alert('上傳失敗，請重試。');
@@ -194,9 +196,9 @@
             });
         };
 
-        // 讀取檔案為Base64
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // 读取文件为Base64
     }
+
 
 
 
