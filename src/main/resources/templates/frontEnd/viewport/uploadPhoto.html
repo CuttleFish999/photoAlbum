@@ -74,6 +74,10 @@
             text-align: center;
             font-size: 1.8em;
         }
+        input::placeholder {
+            color: red; /* Change 'red' to your desired color */
+        }
+
     </style>
 </head>
 <body>
@@ -97,16 +101,16 @@
             <input id="photoDescription" class="upLoadInput" type="text" th:attr="placeholder=${session.loggedInMember.getName() + '，請輸入照片描述'}">
 
         <label class="uploadLabel" for="filepath">照片路徑:</label>
-            <input id="filepath" class="upLoadInput" type="text" value="/image/frontEnd/photo/400x300.png">
+            <input id="filepath" class="upLoadInput" type="text" value="/image/frontEnd/photo/400x300.png" disabled>
 
         <label class="uploadLabel" for="thumbnailpath">照片縮圖路徑:</label>
-            <input id="thumbnailpath" class="upLoadInput" type="text" value="/image/frontEnd/photo/30x30.png">
+            <input id="thumbnailpath" class="upLoadInput" type="text" value="/image/frontEnd/photo/30x30.png" disabled>
 <!--        -->
         <label class="uploadLabel" for="uploadedat">上傳時間:</label>
-            <input id="uploadedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00">
+            <input id="uploadedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00" disabled>
 
         <label class="uploadLabel" for="updatedat">更新時間:</label>
-            <input id="updatedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00">
+            <input id="updatedat" class="upLoadInput" type="text" value="2024-02-13 12:00:00" disabled>
 
     </div>
     <div id="imageDisplay"></div>
@@ -118,6 +122,19 @@
 </div>
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 獲取當前時間
+        let now = new Date();
+        // 轉換時間為 ISO 格式 "YYYY-MM-DDTHH:mm:ss" 或任何你需要的格式
+        let dateTime = now.toISOString().slice(0, 19).replace('T', ' ');
+
+        // 設置上傳時間和更新時間的值
+        document.getElementById('uploadedat').value = dateTime;
+        document.getElementById('updatedat').value = dateTime;
+    });
+    
+    
     function displayImage(input) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -166,7 +183,7 @@
             };
 
             $.ajax({
-                url: 'http://localhost:8080/insertPhoto/',
+                url: '/insertPhoto/',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(jsonData),
