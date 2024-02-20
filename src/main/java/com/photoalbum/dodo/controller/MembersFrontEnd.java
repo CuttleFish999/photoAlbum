@@ -9,6 +9,9 @@ import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,26 +96,32 @@ public class MembersFrontEnd {
 //  viewportAPI
 
     @GetMapping("/viewport")
-    public String viewportHome(Model model, HttpSession session) {
+    public String viewportHome(Model model, HttpSession session,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "1") int size) {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
-        List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Photos> photosPage = photosFrontEndServiceImpl.getAllPhotos(pageable);
 
         Map<Integer, String> imageMap = new HashMap<>();
-        for (Photos photo : photos) {
-            byte[] imageBytes = photo.getFilepath(); // 假設Photos類有一個getImage()方法返回圖片的byte[]
+        for (Photos photo : photosPage.getContent()) {
+            byte[] imageBytes = photo.getFilepath(); // Assuming getFilepath() returns image bytes
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
-                imageMap.put(photo.getPhotoid(), imageBase64); // 假設Photos類有一個getId()方法返回圖片的ID
+                imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
             }
         }
 
-        model.addAttribute("photos", photos);
+        model.addAttribute("photos", photosPage.getContent());
         model.addAttribute("images", imageMap);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", photosPage.getTotalPages());
 
         return "/frontEnd/viewport/viewindex";
     }
+
 
 
     @PostMapping("/insertPhoto/")

@@ -5,6 +5,8 @@ import com.photoalbum.dodo.model.Members;
 import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.PhotosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +24,9 @@ public class PhotosFrontEndServiceImpl implements PhotosService {
     @Override
     public Photos InsertPhoto(Photos photo) {
         return photoFrontEndRepository.save(photo);
+    }
+
+    public Page<Photos> getAllPhotos(Pageable pageable) {
+        return photoFrontEndRepository.findAll(pageable);
     }
 }
