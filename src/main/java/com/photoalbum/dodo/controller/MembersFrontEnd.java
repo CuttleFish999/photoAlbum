@@ -8,11 +8,13 @@ import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
+//import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -102,20 +104,20 @@ public class MembersFrontEnd {
     @GetMapping("/viewport")
     public String viewportHome(Model model, HttpSession session,
                                @RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "2") int size) {
+                               @RequestParam(defaultValue = "1") int size) {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
-        Pageable pageable = PageRequest.of(page, size);
+        // 指定按 id 字段降序排序
+        Pageable pageable = PageRequest.of(page, size, Sort.by("photoid").descending());
         Page<Photos> photosPage = photosFrontEndServiceImpl.getAllPhotos(pageable);
 
         Map<Integer, String> imageMap = new HashMap<>();
         for (Photos photo : photosPage.getContent()) {
-//            byte[] imageBytes = photo.getFilepath();
-            byte[] imageBytes = photo.getThumbnailpath();
+            byte[] imageBytes = photo.getThumbnailpath(); // 或者是 getFilepath()，取决于您的需求
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
-                imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
+                imageMap.put(photo.getPhotoid(), imageBase64); // 假设 getPhotoid() 返回照片的ID
             }
         }
 
@@ -125,6 +127,17 @@ public class MembersFrontEnd {
         model.addAttribute("totalPages", photosPage.getTotalPages());
 
         return "/frontEnd/viewport/viewindex";
+    }
+
+
+
+    @GetMapping("/getPhotoPath/{photoId}")
+    @ResponseBody
+    public String getPhotoPath(@PathVariable("photoId") int photoId) {
+
+        byte[] fileContent =  photosFrontEndServiceImpl.PhotosByID(photoId);
+        String base64String = Base64.getEncoder().encodeToString(fileContent);
+        return base64String;
     }
 
 
@@ -183,8 +196,8 @@ public class MembersFrontEnd {
 
         // 設置縮圖大小和質量
         Thumbnails.of(inputStream)
-                .size(200, 200) // 這裡的尺寸可以根據需要調整
-                .outputQuality(0.8) // 輸出的圖片質量，範圍是0.0至1.0
+                .size(800, 800) // 這裡的尺寸可以根據需要調整
+                .outputQuality(1.0) // 輸出的圖片質量，範圍是0.0至1.0
                 .toOutputStream(outputStream);
 
         return outputStream.toByteArray();
