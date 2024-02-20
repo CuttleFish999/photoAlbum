@@ -47,6 +47,12 @@
 			<version>20210307</version> <!-- 請使用最新的版本 -->
 		</dependency>
 
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.14</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
