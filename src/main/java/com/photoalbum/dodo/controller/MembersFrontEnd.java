@@ -111,7 +111,8 @@ public class MembersFrontEnd {
 
         Map<Integer, String> imageMap = new HashMap<>();
         for (Photos photo : photosPage.getContent()) {
-            byte[] imageBytes = photo.getFilepath(); // Assuming getFilepath() returns image bytes
+//            byte[] imageBytes = photo.getFilepath();
+            byte[] imageBytes = photo.getThumbnailpath();
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
                 imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
