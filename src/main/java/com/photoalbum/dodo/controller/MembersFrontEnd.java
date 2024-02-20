@@ -20,10 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 @Controller
@@ -96,20 +93,27 @@ public class MembersFrontEnd {
 //  viewportAPI
 
     @GetMapping("/viewport")
-    public String viewportHome(Model model,
-                               HttpSession session) {
+    public String viewportHome(Model model, HttpSession session) {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
         List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
 
-//            System.out.println(photos);
+        Map<Integer, String> imageMap = new HashMap<>();
+        for (Photos photo : photos) {
+            byte[] imageBytes = photo.getFilepath(); // 假設Photos類有一個getImage()方法返回圖片的byte[]
+            if (imageBytes != null) {
+                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                imageMap.put(photo.getPhotoid(), imageBase64); // 假設Photos類有一個getId()方法返回圖片的ID
+            }
+        }
 
         model.addAttribute("photos", photos);
-
+        model.addAttribute("images", imageMap);
 
         return "/frontEnd/viewport/viewindex";
     }
+
 
     @PostMapping("/insertPhoto/")
     public ResponseEntity<?> insertPhotoAPI(@RequestBody String photoDataJSON, HttpSession session) {
