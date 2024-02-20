@@ -103,7 +103,7 @@ public class MembersFrontEnd {
     @GetMapping("/viewport")
     public String viewportHome(Model model, HttpSession session,
                                @RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "2") int size) {
+                               @RequestParam(defaultValue = "1") int size) {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
