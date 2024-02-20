@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -107,16 +108,16 @@ public class MembersFrontEnd {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
-        Pageable pageable = PageRequest.of(page, size);
+        // 指定按 id 字段降序排序
+        Pageable pageable = PageRequest.of(page, size, Sort.by("photoid").descending());
         Page<Photos> photosPage = photosFrontEndServiceImpl.getAllPhotos(pageable);
 
         Map<Integer, String> imageMap = new HashMap<>();
         for (Photos photo : photosPage.getContent()) {
-//            byte[] imageBytes = photo.getFilepath();
-            byte[] imageBytes = photo.getThumbnailpath();
+            byte[] imageBytes = photo.getThumbnailpath(); // 或者是 getFilepath()，取决于您的需求
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
-                imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
+                imageMap.put(photo.getPhotoid(), imageBase64); // 假设 getPhotoid() 返回照片的ID
             }
         }
 
@@ -127,6 +128,8 @@ public class MembersFrontEnd {
 
         return "/frontEnd/viewport/viewindex";
     }
+
+
 
     @GetMapping("/getPhotoPath/{photoId}")
     @ResponseBody
