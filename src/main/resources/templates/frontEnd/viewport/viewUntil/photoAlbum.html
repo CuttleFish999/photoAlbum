@@ -10,11 +10,34 @@
             <a href="#" th:href="@{/photo/delete/{id}(id=${photo.photoid})}" class="btn btn-danger">删除</a>
         </div>
     </div>
-</div>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- 上一頁按鈕 -->
+            <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/viewport(page=${currentPage - 1}, size=${size})}" aria-label="Previous" th:if="${currentPage > 0}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <!-- 頁碼按鈕 -->
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:class="${i == currentPage} ? 'page-item active' : 'page-item'">
+                <a class="page-link" th:href="@{/viewport(page=${i}, size=${size})}" th:text="${i + 1}">1</a>
+            </li>
+            <!-- 下一頁按鈕 -->
+            <li th:class="${currentPage + 1 >= totalPages} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/viewport(page=${currentPage + 1}, size=${size})}" aria-label="Next" th:if="${currentPage + 1 < totalPages}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
 
 
-<!-- 相簿的卡片 -->
+
+
+    <!-- 相簿的卡片 -->
 <!--                <div class="col-md-4">-->
 <!--                    <div class="card">-->
 <!--                        <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="...">-->
