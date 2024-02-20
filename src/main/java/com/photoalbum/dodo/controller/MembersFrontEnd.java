@@ -8,6 +8,7 @@ import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpStatus;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,6 +37,7 @@ public class MembersFrontEnd {
 
     @Autowired
     private PhotosFrontEndServiceImpl photosFrontEndServiceImpl;
+
 
     @GetMapping("/test")
     public String test(Model model) {
@@ -107,7 +111,8 @@ public class MembersFrontEnd {
 
         Map<Integer, String> imageMap = new HashMap<>();
         for (Photos photo : photosPage.getContent()) {
-            byte[] imageBytes = photo.getFilepath(); // Assuming getFilepath() returns image bytes
+//            byte[] imageBytes = photo.getFilepath();
+            byte[] imageBytes = photo.getThumbnailpath();
             if (imageBytes != null) {
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
                 imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
@@ -134,7 +139,7 @@ public class MembersFrontEnd {
         try {
             // 使用 Jackson ObjectMapper 將 JSON 字符串轉換為 Map
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> photoData = objectMapper.readValue(photoDataJSON, new TypeReference<Map<String, String>>(){});
+            Map<String, String> photoData = objectMapper.readValue(photoDataJSON, new TypeReference<Map<String, String>>() {});
 
             // 從 Map 中獲取 Base64 編碼的圖片數據
             String base64Image = photoData.get("file");
@@ -143,12 +148,16 @@ public class MembersFrontEnd {
             // 解碼 Base64 字符串獲取二進制數據
             byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
+            // 生成縮圖
+            byte[] thumbnailBytes = createThumbnail(imageBytes);
+
             // 使用解析後的數據創建 Photos 對象
             Photos photo = new Photos();
             photo.setMemberid(loggedInMember.getMemberid());
             photo.setTitle(photoData.get("title"));
             photo.setDescription(photoData.get("description"));
-            photo.setFilepath(imageBytes); // 直接將二進制數據設置到對應的屬性
+            photo.setFilepath(imageBytes); // 原圖二進制數據
+            photo.setThumbnailpath(thumbnailBytes); // 縮圖二進制數據
 
             // 調用 service 方法保存 photo 對象
             photosFrontEndServiceImpl.InsertPhoto(photo);
@@ -161,9 +170,23 @@ public class MembersFrontEnd {
     }
 
 
+
     @GetMapping("/upLoadDate")
     public String upLoadDate(Model model) {
 
         return "/frontEnd/viewport/uploadPhoto";
+    }
+
+    public byte[] createThumbnail(byte[] imageBytes) throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        // 設置縮圖大小和質量
+        Thumbnails.of(inputStream)
+                .size(200, 200) // 這裡的尺寸可以根據需要調整
+                .outputQuality(0.8) // 輸出的圖片質量，範圍是0.0至1.0
+                .toOutputStream(outputStream);
+
+        return outputStream.toByteArray();
     }
 }
