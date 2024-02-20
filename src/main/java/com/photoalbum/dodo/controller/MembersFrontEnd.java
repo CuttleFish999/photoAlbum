@@ -8,6 +8,7 @@ import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
+//import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -183,8 +184,8 @@ public class MembersFrontEnd {
 
         // 設置縮圖大小和質量
         Thumbnails.of(inputStream)
-                .size(200, 200) // 這裡的尺寸可以根據需要調整
-                .outputQuality(0.8) // 輸出的圖片質量，範圍是0.0至1.0
+                .size(800, 800) // 這裡的尺寸可以根據需要調整
+                .outputQuality(1.0) // 輸出的圖片質量，範圍是0.0至1.0
                 .toOutputStream(outputStream);
 
         return outputStream.toByteArray();
