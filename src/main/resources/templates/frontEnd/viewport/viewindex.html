@@ -35,6 +35,34 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // 绑定点击事件到所有查看按钮
+        $('.view-photo').click(function(e){
+            e.preventDefault();
+            let photoId = $(this).data("photo-id");
+            let $cardBody = $(this).closest('.card-body'); // 获取当前按钮所在的卡片体
+
+            // 发送AJAX请求到后端
+            $.ajax({
+                url: '/getPhotoPath/' + photoId, // URL路径中包含photoId
+                type: 'GET',
+                success: function(base64String){
+                    // 请求成功，将图片显示在当前卡片体内的<img>标签中
+                    $cardBody.find('.product-img').attr("src", "data:image/jpeg;base64," + base64String);
+                },
+                error: function(){
+                    // 请求失败处理
+                    alert('无法获取图片');
+                }
+            });
+        });
+    });
+</script>
+
+
+
 </body>
 </html>

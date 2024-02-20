@@ -26,7 +26,18 @@ public class PhotosFrontEndServiceImpl implements PhotosService {
         return photoFrontEndRepository.save(photo);
     }
 
+
+
     public Page<Photos> getAllPhotos(Pageable pageable) {
         return photoFrontEndRepository.findAll(pageable);
     }
+
+    @Override
+    public byte[] PhotosByID(Integer photoId) {
+
+        byte[] image = photoFrontEndRepository.findById(photoId).get().getFilepath();
+
+        return image;
+    }
+
 }

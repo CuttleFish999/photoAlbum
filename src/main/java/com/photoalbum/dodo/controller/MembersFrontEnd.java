@@ -128,6 +128,15 @@ public class MembersFrontEnd {
         return "/frontEnd/viewport/viewindex";
     }
 
+    @GetMapping("/getPhotoPath/{photoId}")
+    @ResponseBody
+    public String getPhotoPath(@PathVariable("photoId") int photoId) {
+
+        byte[] fileContent =  photosFrontEndServiceImpl.PhotosByID(photoId);
+        String base64String = Base64.getEncoder().encodeToString(fileContent);
+        return base64String;
+    }
+
 
 
     @PostMapping("/insertPhoto/")

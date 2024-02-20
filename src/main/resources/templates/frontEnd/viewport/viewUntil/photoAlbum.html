@@ -2,13 +2,13 @@
 <div th:fragment="photoAlbum">
     <div th:each="photo : ${photos}">
         <div class="card-body">
-            <img class="product-img" id="avatar" th:src="'data:image/jpeg;base64,' + ${images[__${photo.photoid}__]}" alt="產品圖片"/>
+            <img class="product-img" id="productImage" th:src="'data:image/jpeg;base64,' + ${images[__${photo.photoid}__]}" alt="產品圖片"/>
 
             <h5 class="card-title" th:text="${photo.title}">相簿标题</h5>
             <p class="card-text" th:text="${photo.description}">相簿描述。</p>
-            <a href="#" th:href="@{/photo/view/{id}(id=${photo.photoid})}" class="btn btn-primary">查看</a>
-            <a href="#" th:href="@{/photo/edit/{id}(id=${photo.photoid})}" class="btn btn-secondary">编辑</a>
-            <a href="#" th:href="@{/photo/delete/{id}(id=${photo.photoid})}" class="btn btn-danger">删除</a>
+            <a href="#" th:data-photo-id="${photo.photoid}" class="btn btn-primary view-photo">查看</a>
+            <a href="#" th:href="@{/viewport/edit/{id}(id=${photo.photoid})}" class="btn btn-secondary">编辑</a>
+            <a href="#" th:href="@{/viewport/delete/{id}(id=${photo.photoid})}" class="btn btn-danger">删除</a>
         </div>
     </div>
 </div>

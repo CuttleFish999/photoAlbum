@@ -11,4 +11,6 @@ public interface PhotosService {
     List<Photos> getAllPhotos(Members member);
 
     Photos InsertPhoto(Photos photo);
+
+    byte[] PhotosByID(Integer photoId);
 }
