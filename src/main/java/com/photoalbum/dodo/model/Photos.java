@@ -21,9 +21,9 @@ public class Photos {
     @Column(name = "description")
     private String description;            //描述
     @Column(name = "filepath")
-    private String filepath;               //檔案路徑
+    private byte[] filepath;               //檔案路徑
     @Column(name = "thumbnailpath")
-    private String thumbnailpath;          //縮圖路徑
+    private byte[] thumbnailpath;          //縮圖路徑
     @Column(name = "uploadedat")
     private Timestamp uploadedat;          //上傳時間
     @Column(name = "updatedat")
@@ -61,11 +61,11 @@ public class Photos {
         this.description = description;
     }
 
-    public String getFilepath() {
+    public byte[] getFilepath() {
         return filepath;
     }
 
-    public void setFilepath(String filepath) {
+    public void setFilepath(byte[] filepath) {
         this.filepath = filepath;
     }
 
@@ -85,11 +85,11 @@ public class Photos {
         this.updatedat = updatedat;
     }
 
-    public String getThumbnailpath() {
+    public byte[] getThumbnailpath() {
         return thumbnailpath;
     }
 
-    public void setThumbnailpath(String thumbnailpath) {
+    public void setThumbnailpath(byte[] thumbnailpath) {
         this.thumbnailpath = thumbnailpath;
     }
 }

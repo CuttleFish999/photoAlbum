@@ -1,12 +1,17 @@
 package com.photoalbum.dodo.controller;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photoalbum.dodo.model.Members;
 import com.photoalbum.dodo.model.Photos;
 import com.photoalbum.dodo.service.Impl.MembersFrontEndServiceImpl;
 import com.photoalbum.dodo.service.Impl.PhotosFrontEndServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 
 @Controller
@@ -88,38 +96,70 @@ public class MembersFrontEnd {
 //  viewportAPI
 
     @GetMapping("/viewport")
-    public String viewportHome(Model model,
-                               HttpSession session) {
+    public String viewportHome(Model model, HttpSession session,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "2") int size) {
         Members member = (Members) session.getAttribute("loggedInMember");
         System.out.println(member);
 
-        List<Photos> photos = photosFrontEndServiceImpl.getAllPhotos(member);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Photos> photosPage = photosFrontEndServiceImpl.getAllPhotos(pageable);
 
-//            System.out.println(photos);
+        Map<Integer, String> imageMap = new HashMap<>();
+        for (Photos photo : photosPage.getContent()) {
+            byte[] imageBytes = photo.getFilepath(); // Assuming getFilepath() returns image bytes
+            if (imageBytes != null) {
+                String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                imageMap.put(photo.getPhotoid(), imageBase64); // Assuming getPhotoid() returns the photo's ID
+            }
+        }
 
-        model.addAttribute("photos", photos);
-
+        model.addAttribute("photos", photosPage.getContent());
+        model.addAttribute("images", imageMap);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", photosPage.getTotalPages());
 
         return "/frontEnd/viewport/viewindex";
     }
 
-    @ResponseBody
+
+
     @PostMapping("/insertPhoto/")
-//    public Members insertPhoto(@RequestBody Members Member) {
-    public String insertPhotoAPI(@RequestBody Photos photo,
-                                 HttpSession session,
-                                 Model model) {
+    public ResponseEntity<?> insertPhotoAPI(@RequestBody String photoDataJSON, HttpSession session) {
         Members loggedInMember = (Members) session.getAttribute("loggedInMember");
-        System.out.println(photo.getMemberid());
-        photo.setMemberid(loggedInMember.getMemberid());
-        System.out.println(photo.getMemberid());
-        model.addAttribute(loggedInMember);
-        photosFrontEndServiceImpl.InsertPhoto(photo);
+        if (loggedInMember == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户未登录");
+        }
 
-//        Members memeber = MembersFrontEndServiceImpl.createAnAccount(Member);
+        try {
+            // 使用 Jackson ObjectMapper 將 JSON 字符串轉換為 Map
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, String> photoData = objectMapper.readValue(photoDataJSON, new TypeReference<Map<String, String>>(){});
 
-        return "/frontEnd/viewport/viewindex";
+            // 從 Map 中獲取 Base64 編碼的圖片數據
+            String base64Image = photoData.get("file");
+            base64Image = base64Image.substring(base64Image.indexOf(",") + 1); // 去除Base64前綴
+
+            // 解碼 Base64 字符串獲取二進制數據
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+
+            // 使用解析後的數據創建 Photos 對象
+            Photos photo = new Photos();
+            photo.setMemberid(loggedInMember.getMemberid());
+            photo.setTitle(photoData.get("title"));
+            photo.setDescription(photoData.get("description"));
+            photo.setFilepath(imageBytes); // 直接將二進制數據設置到對應的屬性
+
+            // 調用 service 方法保存 photo 對象
+            photosFrontEndServiceImpl.InsertPhoto(photo);
+
+            return ResponseEntity.ok("圖片上傳成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("圖片上傳失敗");
+        }
     }
+
 
     @GetMapping("/upLoadDate")
     public String upLoadDate(Model model) {
